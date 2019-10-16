@@ -14,6 +14,13 @@ namespace PizzaMargaritta.Entities
         public int ID { get; set; }
 
         [Required]
+        public string Login { get; set; }
+
+        [Required]
+
+        public string Password { get; set; }
+
+        [Required]
         public string FirstName { get; set; }
 
         [Required]
@@ -24,5 +31,14 @@ namespace PizzaMargaritta.Entities
         public string Number { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var user = obj as User;
+            return user != null &&
+                   FirstName == user.FirstName &&
+                   LastName == user.LastName &&
+                   Number == user.Number;
+        }
     }
 }
