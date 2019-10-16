@@ -36,9 +36,7 @@ namespace PizzaMargaritta.Entities
         {
             var user = obj as User;
             return user != null &&
-                   FirstName == user.FirstName &&
-                   LastName == user.LastName &&
-                   Number == user.Number;
+                   Login == user.Login || Number == user.Number;
         }
     }
 }
