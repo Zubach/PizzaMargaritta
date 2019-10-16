@@ -25,14 +25,27 @@ namespace PizzaMargaritta.Controllers
         }
 
 
-        
+        [HttpGet("{login}:{password}")]
+        public ContentResult Login(string login,string password)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Login == login && x.Password == password);
+            UserModel userModel;
+            if (user != null)
+            {
+                userModel = new UserModel() { FirstName = user.FirstName, LastName = user.LastName, Login = user.Login, Password = user.Password, Number = user.Number };
+                return Content(JsonConvert.SerializeObject(userModel));
+            }
+            return Content("Login failed");
 
+
+
+        }
         [HttpPost("add")]
         public ContentResult AddUser([FromBody] UserModel user)
         {
             if(user != null)
             {
-                Entities.User CreateUser = new User() { FirstName = user.FirstName, LastName = user.LastName, Number = user.Number };
+                Entities.User CreateUser = new User() { Login = user.Login, Password=user.Password, FirstName = user.FirstName, LastName = user.LastName, Number = user.Number };
                 var findedUser= _context.Users.Contains(CreateUser);
 
                 if(!findedUser)
