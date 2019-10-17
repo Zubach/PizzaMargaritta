@@ -31,9 +31,9 @@
         <Image Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Source="Resources/1216_ricardo.png" Height="341"/>
 
         <Button Style="{DynamicResource MaterialDesignRaisedButton}"
-    materialDesign:ShadowAssist.ShadowDepth="Depth2" Content="Login" FontSize="29" Grid.Column="1" Width="150" Height="50" VerticalAlignment="Center" HorizontalAlignment="Left"  Grid.Row="1" FontFamily="/PizzaMargarittaUI;component/#Black Jack" />
+    materialDesign:ShadowAssist.ShadowDepth="Depth2" Content="Login" FontSize="29" Grid.Column="1" Width="150" Height="50" VerticalAlignment="Center" HorizontalAlignment="Left"  Grid.Row="1" FontFamily="/PizzaMargarittaUI;component/#Black Jack" Click="Button_Click" />
         <Button Style="{DynamicResource MaterialDesignRaisedButton}"
-    materialDesign:ShadowAssist.ShadowDepth="Depth2" Content="Register" FontSize="29" Grid.Column="1" Width="150" Height="50" VerticalAlignment="Center" HorizontalAlignment="Left"  Grid.Row="2" FontFamily="/PizzaMargarittaUI;component/#Black Jack" />
+    materialDesign:ShadowAssist.ShadowDepth="Depth2" Content="Register" FontSize="29" Grid.Column="1" Width="150" Height="50" VerticalAlignment="Center" HorizontalAlignment="Left"  Grid.Row="2" FontFamily="/PizzaMargarittaUI;component/#Black Jack" Click="Button_Click_1" />
         <Label Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center"/>
 
     </Grid>

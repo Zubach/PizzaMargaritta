@@ -1,0 +1,49 @@
+﻿<Window x:Class="PizzaMargarittaUI.RefisterForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PizzaMargarittaUI"
+        mc:Ignorable="d"
+                        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"    
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="RefisterForm" Height="500" Width="500">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="49*"></ColumnDefinition>
+                <ColumnDefinition Width="101*"></ColumnDefinition>
+                <ColumnDefinition Width="96*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <materialDesign:ColorZone Mode="Accent" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Padding="16" Foreground="White" FontSize="30" FontWeight="Bold" Height="70">
+                <StackPanel>
+                    <TextBlock FontFamily="/PizzaMargarittaUI;component/#Black Jack" >Pizza Margaritta</TextBlock>
+                </StackPanel>
+            </materialDesign:ColorZone>
+            <Image Grid.Row="0" Grid.RowSpan="8" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Source="Resources/secondflex.gif" Height="341"/>
+
+            <Button Style="{DynamicResource MaterialDesignRaisedButton}"
+    materialDesign:ShadowAssist.ShadowDepth="Depth2" Content="Registration" FontSize="29" Grid.Column="1" Width="170" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"  Grid.Row="2" FontFamily="/PizzaMargarittaUI;component/#Black Jack" Click="Button_Click"  />
+            <PasswordBox Name="PasswordBox" materialDesign:HintAssist.Hint="Password" Grid.Column="2" HorizontalAlignment="Center" Height="30"  Grid.Row="2"  VerticalAlignment="Center"  Width="150"/>
+            <TextBox Name="LoginBox" materialDesign:HintAssist.Hint="Login" Grid.Column="2" HorizontalAlignment="Center" Height="30"  Grid.Row="1"  TextWrapping="Wrap" VerticalAlignment="Center"  Width="150"/>
+            <PasswordBox Name="ConfirmPasswordBox"  materialDesign:HintAssist.Hint="Confirm Password" Grid.Column="2" HorizontalAlignment="Center" Height="30"  Grid.Row="3"  VerticalAlignment="Center"  Width="150" Margin="21,14.5"/>
+            <TextBox Name="NameBox"  materialDesign:HintAssist.Hint="Name" Grid.Column="2" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap"  Grid.Row="4"  VerticalAlignment="Center"  Width="150" Margin="21,14.5"/>
+            <TextBox Name="SurnameBox"  materialDesign:HintAssist.Hint="Surname" Grid.Column="2" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap"  Grid.Row="5"  VerticalAlignment="Center"  Width="150" Margin="21,14.5"/>
+            <TextBox Name="PhoneBox"  materialDesign:HintAssist.Hint="PhoneNumber" Grid.Column="2" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap"  Grid.Row="6"  VerticalAlignment="Center"  Width="150" Margin="21,14.5"/>
+
+        </Grid>
+    </Grid>
+</Window>
