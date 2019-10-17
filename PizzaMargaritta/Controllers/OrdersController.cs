@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PizzaMargaritta.Entities;
+using PizzaMargaritta.Models;
 
 namespace PizzaMargaritta.Controllers
 {
@@ -27,6 +28,25 @@ namespace PizzaMargaritta.Controllers
         {
            var list = _context.Orders.ToList();
             return Content(JsonConvert.SerializeObject(list));
+        }
+
+        [HttpPost("add/{login}:{password}")]
+        public ContentResult AddOrder([FromBody] OrderModel model,string login,string password)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Login == login && x.Password == password);
+            if(user != null)
+            {
+                _context.Orders.Add(
+                    new Order()
+                    {
+                        Address = model.Address,
+                        UserID = model.UserID,
+                        PizzaID = model.PizzaID
+                    }
+                    );
+                return Content("Your order added succesfully");
+            }
+            return Content("BAN");
         }
     }
 }
