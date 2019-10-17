@@ -24,5 +24,19 @@ namespace PizzaMargarittaUI
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoginForm lf = new LoginForm();
+            lf.Owner = this;
+            lf.Show();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            RefisterForm rg = new RefisterForm();
+            rg.Owner = this;
+            rg.Show();
+        }
     }
 }
