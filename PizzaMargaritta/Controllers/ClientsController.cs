@@ -11,11 +11,11 @@ namespace PizzaMargaritta.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientController : Controller
+    public class ClientsController : Controller
     {
         private readonly EFContext _context;
 
-        public ClientController(EFContext context)
+        public ClientsController(EFContext context)
         {
             _context = context;
         }
@@ -36,7 +36,7 @@ namespace PizzaMargaritta.Controllers
                 return Content(JsonConvert.SerializeObject(userModel));
             }
             return Content("Login failed");
-
+ 
 
 
         }
@@ -62,11 +62,6 @@ namespace PizzaMargaritta.Controllers
             return Content("Kozak poplakav");
         }
 
-        [HttpGet("users")]
-        public ContentResult GetUsers()
-        {
-            var list = _context.Users.ToList();
-            return Content(JsonConvert.SerializeObject(list));
-        }
+        
     }
 }
