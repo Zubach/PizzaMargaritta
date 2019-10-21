@@ -27,6 +27,10 @@ namespace PizzaMargaritta.Entities
         public string LastName { get; set; }
 
         [Required]
+        public bool IsBanned { get; set; }
+
+
+        [Required]
 
         public string Number { get; set; }
 
