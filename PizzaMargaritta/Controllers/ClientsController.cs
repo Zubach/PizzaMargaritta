@@ -43,7 +43,21 @@ namespace PizzaMargaritta.Controllers
             var admin = _context.Admins.FirstOrDefault(x => x.Login == login && x.Password == password);
             if(admin != null)
             {
-                return Content(JsonConvert.SerializeObject(_context.Users.ToList()));
+                List<UserForAdminModel> users = new List<UserForAdminModel>();
+                foreach (var item in _context.Users.ToList())
+                {
+                    users.Add(
+                        new UserForAdminModel()
+                        {
+                            FirstName = item.FirstName,
+                            LastName = item.LastName,
+                            Login = item.Login,
+                            Number = item.Number,
+                            IsBanned = item.IsBanned
+                        });
+                }
+
+                return Content(JsonConvert.SerializeObject(users));
             }
             return Content("Ti ne admin");
         }
