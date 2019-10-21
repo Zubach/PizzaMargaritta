@@ -30,7 +30,7 @@ namespace PizzaMargarittaUI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/client/{LoginBox.Text}:{PasswordBox.Password.ToString()}");
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/clients/{LoginBox.Text}:{PasswordBox.Password.ToString()}");
             httpWebRequest.Method = "GET";
             httpWebRequest.ContentType = "application/json";
             WebResponse web = httpWebRequest.GetResponse();
@@ -43,9 +43,17 @@ namespace PizzaMargarittaUI
             UserModel currentUser;
             if ("Login failed" == response)
                 MessageBox.Show("Hello");
-       
+
             else
+            {
                 currentUser = JsonConvert.DeserializeObject<UserModel>(response);
+         
+                UserWindow uw = new UserWindow(currentUser);
+                uw.Owner = this;
+                this.Hide();
+                uw.Show();
+
+            }
 
            
         }
