@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -24,6 +25,28 @@ namespace PizzaMargaritta.Controllers
             return View();
         }
 
+        [HttpPut("{userlogin}/{login}:{password}")]
+        public ContentResult Ban([FromBody] string userlogin,[FromBody] string login,[FromBody] string password)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Login == userlogin);
+            if(user != null)
+            {
+                user.IsBanned = true;
+                return Content("Banned succesfully");
+            }
+            return Content("BAN");
+        }
+
+        [HttpGet("{login}:{password}")]
+        public ContentResult Get(string login,string password)
+        {
+            var admin = _context.Admins.FirstOrDefault(x => x.Login == login && x.Password == password);
+            if(admin != null)
+            {
+                return Content(JsonConvert.SerializeObject(_context.Users.ToList()));
+            }
+            return Content("Ti ne admin");
+        }
 
         [HttpGet("{login}:{password}")]
         public ContentResult Login(string login,string password)
@@ -31,21 +54,31 @@ namespace PizzaMargaritta.Controllers
             var user = _context.Users.FirstOrDefault(x => x.Login == login && x.Password == password);
             UserModel userModel;
             if (user != null)
+                
             {
-                userModel = new UserModel() { FirstName = user.FirstName, LastName = user.LastName, Login = user.Login, Password = user.Password, Number = user.Number };
-                return Content(JsonConvert.SerializeObject(userModel));
+                if (!user.IsBanned)
+                {
+                    userModel = new UserModel() { FirstName = user.FirstName, LastName = user.LastName, Login = user.Login, Password = user.Password, Number = user.Number };
+
+                    return Content(JsonConvert.SerializeObject(userModel));
+                }
+                else
+                {
+                    return Content("BAN");
+                }
             }
             return Content("Login failed");
  
 
 
         }
+
         [HttpPost("add")]
         public ContentResult AddUser([FromBody] UserModel user)
         {
             if(user != null)
             {
-                Entities.User CreateUser = new User() { Login = user.Login, Password=user.Password, FirstName = user.FirstName, LastName = user.LastName, Number = user.Number };
+                Entities.User CreateUser = new User() { Login = user.Login, Password=user.Password, FirstName = user.FirstName, LastName = user.LastName, Number = user.Number,IsBanned =false};
                 var findedUser= _context.Users.Contains(CreateUser);
 
                 if(!findedUser)

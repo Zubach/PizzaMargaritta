@@ -34,7 +34,7 @@ namespace PizzaMargaritta.Controllers
         public ContentResult AddOrder([FromBody] OrderModel model,string login,string password)
         {
             var user = _context.Users.FirstOrDefault(x => x.Login == login && x.Password == password);
-            if(user != null)
+            if(user != null && !user.IsBanned)
             {
                 _context.Orders.Add(
                     new Order()
@@ -48,5 +48,6 @@ namespace PizzaMargaritta.Controllers
             }
             return Content("BAN");
         }
+
     }
 }
