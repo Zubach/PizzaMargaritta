@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PizzaMargaritta.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,25 @@ namespace PizzaMargarittaAdminUI
     /// </summary>
     public partial class EditUserWindow : Window
     {
+        UserModel user;
         public EditUserWindow()
         {
             InitializeComponent();
         }
+
+        public EditUserWindow(UserModel model)
+        {
+            InitializeComponent();
+            user = model;
+
+            LogintextBox.Text = user.Login;
+            FirstNameTextBox.Text = user.FirstName;
+            LastNameTextBox.Text = user.LastName;
+            NumberTextBox.Text = user.Number;
+            RadioButtonFalse.IsChecked = !user.IsBanned;
+
+          
+        }
+
     }
 }

@@ -23,16 +23,11 @@
         
 
         <TextBox
+            
             Grid.Row="0"
   x:Name="LogintextBox"
   materialDesign:HintAssist.Hint="Login">
-            <TextBox.Text>
-                <Binding
-      Path="Login"
-      UpdateSourceTrigger="PropertyChanged">
-                    
-                </Binding>
-            </TextBox.Text>
+            
         </TextBox>
 
 
@@ -40,13 +35,7 @@
             Grid.Row="1"
   x:Name="FirstNameTextBox"
   materialDesign:HintAssist.Hint="FirstName">
-            <TextBox.Text>
-                <Binding
-                     Path="FirstName"
-                UpdateSourceTrigger="PropertyChanged">
-
-                </Binding>
-            </TextBox.Text>
+            
         </TextBox>
 
 
@@ -55,26 +44,14 @@
             Grid.Row="2"
   x:Name="LastNameTextBox"
   materialDesign:HintAssist.Hint="LastName">
-            <TextBox.Text>
-                <Binding
-                     Path="LastName"
-                UpdateSourceTrigger="PropertyChanged">
-
-                </Binding>
-            </TextBox.Text>
+            
         </TextBox>
 
         <TextBox
             Grid.Row="3"
   x:Name="NumberTextBox"
   materialDesign:HintAssist.Hint="Number">
-            <TextBox.Text>
-                <Binding
-                     Path="Number"
-                UpdateSourceTrigger="PropertyChanged">
-
-                </Binding>
-            </TextBox.Text>
+            
         </TextBox>
 
         <DockPanel Grid.Row="4" Margin="10">
@@ -84,13 +61,7 @@
                 Margin="0,0,50,0"
     Style="{StaticResource MaterialDesignRadioButton}"
     Tag="True">
-                <RadioButton.IsChecked>
-                    <Binding
-                        Path="Tag"
-                        RelativeSource="{RelativeSource Self}">
-                        
-                    </Binding>
-                </RadioButton.IsChecked>
+                
                 True
             </RadioButton>
 
@@ -98,13 +69,7 @@
                 Name="RadioButtonFalse"
     Style="{StaticResource MaterialDesignRadioButton}"
     Tag="False">
-                <RadioButton.IsChecked>
-                    <Binding
-                        Path="Tag"
-                        RelativeSource="{RelativeSource Self}">
-
-                    </Binding>
-                </RadioButton.IsChecked>
+                
                 False
             </RadioButton>
 

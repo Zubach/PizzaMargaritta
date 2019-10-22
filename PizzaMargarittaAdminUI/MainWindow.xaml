@@ -24,7 +24,8 @@
         </Grid.RowDefinitions>
 
         <ListView Grid.Row="1"
-                  Name="listView">
+                  Name="listView"
+                  MouseDoubleClick="ListView_MouseDoubleClick">
             
             <ListView.View>
                 <GridView>
