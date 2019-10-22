@@ -12,12 +12,15 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="UserWindow" Height="450" Width="800">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="71*"></RowDefinition>
             <RowDefinition Height="348*"></RowDefinition>
         </Grid.RowDefinitions>
-        <materialDesign:ColorZone
+        <materialDesign:ColorZone Grid.Column="0" Grid.ColumnSpan="2"
             Grid.Row="0" 
   Foreground="White"
   Mode="Accent"
@@ -39,6 +42,18 @@
                 <Button Margin="60,0,0,0" Content="Orger Pizza(s)"></Button>
             </StackPanel>
         </materialDesign:ColorZone>
-        <ListView Grid.Row="1" ></ListView>
+        <ListView Grid.Column="0" Grid.ColumnSpan="2"   Grid.Row="1" Name="ListViewForPizza" Background="{x:Null}">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5" >
+                        <Image Width="100" Height="75" Source="{Binding Path=Image}" />
+                        <TextBlock FontSize="16" Text="{Binding Path=Name}" HorizontalAlignment="Center" />
+                        <TextBlock FontSize="16" Text="{Binding Path=Price}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListView>
+        
     </Grid>
 </Window>
