@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PizzaMargarittaAdminUI"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="264.013"
+        Title="LoginWindow" Height="450" Width="318.472"
        >
     <Window.Background>
-        <ImageBrush TileMode="Tile" ImageSource="Images/background.jpg" />
+        <ImageBrush TileMode="Tile" ImageSource="Images/background.jpg" >
+        </ImageBrush>
     </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -17,5 +19,29 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <TextBox
+  materialDesign:HintAssist.Hint="Login"
+  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+            
+            materialDesign:HintAssist.Foreground="OrangeRed"
+  materialDesign:TextFieldAssist.UnderlineBrush="OrangeRed"/>
+
+        <PasswordBox Grid.Row="1"
+  x:Name="PasswordBox"
+  materialDesign:HintAssist.Hint="Password"
+  materialDesign:HintAssist.Foreground="OrangeRed"
+  materialDesign:TextFieldAssist.UnderlineBrush="OrangeRed"
+  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+
+
+        <Button
+            Click="Button_Click"
+            Grid.Row="2"
+    Style="{StaticResource MaterialDesignRaisedButton}"
+    Width="100"
+   
+            Background="OrangeRed">
+            Login
+        </Button>
     </Grid>
 </Window>

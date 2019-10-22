@@ -35,7 +35,7 @@ namespace PizzaMargarittaUI
                 MessageBox.Show("Confirm Password Failed");
                 return;
             }
-            HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/client/add");
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/clients/add");
             httpWebRequest.Method = "POST";
             httpWebRequest.ContentType = "application/json";
             UserModel usermodel = new UserModel();
