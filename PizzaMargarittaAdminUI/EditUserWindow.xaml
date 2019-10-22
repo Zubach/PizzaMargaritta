@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:PizzaMargarittaAdminUI"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="EditUserWindow" Height="450" Width="298.408">
+        Title="EditUserWindow" Height="450" Width="298.408"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
