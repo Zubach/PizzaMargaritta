@@ -44,6 +44,7 @@ namespace PizzaMargarittaUI
             usermodel.Login = LoginBox.Text;
             usermodel.LastName = SurnameBox.Text;
             usermodel.FirstName = NameBox.Text;
+            usermodel.IsBanned = false;
            
             using (Stream stream = httpWebRequest.GetRequestStream())
             {

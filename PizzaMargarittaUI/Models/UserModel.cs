@@ -19,5 +19,7 @@ namespace PizzaMargaritta.Models
         public string LastName { get; set; }
 
         public string Number { get; set; }
+        public bool IsBanned { get; set; }
+
     }
 }
