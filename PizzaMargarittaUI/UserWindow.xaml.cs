@@ -1,4 +1,5 @@
 ﻿using PizzaMargaritta.Models;
+using PizzaMargarittaUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,14 @@ namespace PizzaMargarittaUI
             InitializeComponent();
             TextUserName.Text = um.FirstName + " " + "\"" + um.Login + "\"" + " " + um.LastName;
             CurrentUser = um;
-           
- 
-        }
+            
+            Pizza pizza = new Pizza() { Name = "Mozzarella", Description = "Жоста з сирком і памідорками", Image = @"D:\Mozarella-pizza_cr.jpg", Price = 200 };
+            Pizza pizza2 = new Pizza() { Name = "Paperoni", Description = "Тупа с острими калбасками", Image = @"D:\Mozarella - pizza_cr.jpg", Price = 300 };
+            List<Pizza> listOFPizzas = new List<Pizza>();
+            listOFPizzas.Add(pizza); listOFPizzas.Add(pizza2);
+            ListViewForPizza.ItemsSource = listOFPizzas;
+
+        }  
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
