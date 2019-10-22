@@ -25,7 +25,7 @@ namespace PizzaMargaritta.Controllers
             return View();
         }
 
-        [HttpPut("{userlogin}/{login}:{password}")]
+        [HttpPut("{userlogin}/ban/{login}:{password}")]
         public ContentResult Ban( string userlogin, string login, string password)
         {
             var user = _context.Users.FirstOrDefault(x => x.Login == userlogin);
