@@ -25,7 +25,7 @@ namespace PizzaMargaritta.Controllers
             return View();
         }
 
-        [HttpPut("{userlogin}/{login}:{password}")]
+        [HttpPut("{userlogin}/ban/{login}:{password}")]
         public ContentResult Ban( string userlogin, string login, string password)
         {
             var user = _context.Users.FirstOrDefault(x => x.Login == userlogin);
@@ -37,7 +37,7 @@ namespace PizzaMargaritta.Controllers
             return Content("BAN");
         }
 
-        [HttpGet("{login}:{password}")]
+        [HttpGet("get/{login}:{password}")]
         public ContentResult Get(string login,string password)
         {
             var admin = _context.Admins.FirstOrDefault(x => x.Login == login && x.Password == password);
@@ -62,7 +62,7 @@ namespace PizzaMargaritta.Controllers
             return Content("Ti ne admin");
         }
 
-        [HttpGet("{login}:{password}")]
+        [HttpGet("login/{login}:{password}")]
         public ContentResult Login(string login,string password)
         {
             var user = _context.Users.FirstOrDefault(x => x.Login == login && x.Password == password);
