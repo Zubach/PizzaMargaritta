@@ -1,4 +1,5 @@
-﻿using PizzaMargaritta.Models;
+﻿using MaterialDesignThemes.Wpf;
+using PizzaMargaritta.Models;
 using PizzaMargarittaUI.Models;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,21 @@ namespace PizzaMargarittaUI
         {
             this.Owner.Show();
             this.Close();
+        }
+
+        private void ListViewForPizza_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ForDesc.Text = (ListViewForPizza.SelectedItems[0] as Pizza).Description;
+           
+            Description_Dialog.IsOpen = true;
+            ButtonAcc.Opacity = 100;
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            ButtonAcc.Opacity = 0;
+            Description_Dialog.IsOpen = false;
         }
     }
 }

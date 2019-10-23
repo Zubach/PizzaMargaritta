@@ -31,7 +31,7 @@ namespace PizzaMargarittaUI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-                HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/clients/{LoginBox.Text}:{PasswordBox.Password.ToString()}");
+                HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/clients/login/{LoginBox.Text}:{PasswordBox.Password.ToString()}");
                 httpWebRequest.Method = "GET";
                 httpWebRequest.ContentType = "application/json";
                 WebResponse web = httpWebRequest.GetResponse();
