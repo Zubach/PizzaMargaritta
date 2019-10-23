@@ -78,6 +78,7 @@
         <DockPanel Grid.Row="5">
 
             <Button
+                Click="Button_Click_1"
     Style="{StaticResource MaterialDesignRaisedLightButton}"
     Width="100"
     ToolTip="Resource name: MaterialDesignRaisedLightButton"
@@ -86,6 +87,7 @@
             </Button>
 
             <Button
+                Click="Button_Click"
     Style="{StaticResource MaterialDesignRaisedLightButton}"
     Width="100"
     ToolTip="Resource name: MaterialDesignRaisedLightButton">

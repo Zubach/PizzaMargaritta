@@ -1,7 +1,11 @@
-﻿using PizzaMargaritta.Models;
+﻿using Newtonsoft.Json;
+using PizzaMargaritta.Models;
+using PizzaMargarittaAdminUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,15 +25,18 @@ namespace PizzaMargarittaAdminUI
     public partial class EditUserWindow : Window
     {
         UserModel user;
+        AdminModel admin;
         public EditUserWindow()
         {
             InitializeComponent();
         }
 
-        public EditUserWindow(UserModel model)
+        public EditUserWindow(UserModel model, AdminModel adminModel)
         {
             InitializeComponent();
             user = model;
+
+            admin = adminModel;
 
             LogintextBox.Text = user.Login;
             FirstNameTextBox.Text = user.FirstName;
@@ -40,5 +47,41 @@ namespace PizzaMargarittaAdminUI
           
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            HttpWebRequest httpWebRequest= WebRequest.CreateHttp($"https://localhost:44361/api/clients/{user.Login}/edit/{admin.Login}:{admin.Password}");
+            httpWebRequest.Method = "PUT";
+            UserModel userModel = new UserModel()
+            {
+                Login = LogintextBox.Text,
+                FirstName = FirstNameTextBox.Text,
+                LastName = LastNameTextBox.Text,
+                Number = NumberTextBox.Text,
+                IsBanned = (RadioButtonTrue.IsChecked == true) ? true : false
+            };
+
+            using (Stream stream = httpWebRequest.GetRequestStream())
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(JsonConvert.SerializeObject(userModel));
+                }
+            }
+
+            string response = "";
+            WebResponse web = httpWebRequest.GetResponse();
+            using (Stream stream = web.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(stream);
+                response = reader.ReadToEnd();
+            }
+            MessageBox.Show(response);
+        }
     }
 }

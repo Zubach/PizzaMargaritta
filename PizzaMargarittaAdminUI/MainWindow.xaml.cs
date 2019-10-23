@@ -58,7 +58,7 @@ namespace PizzaMargarittaAdminUI
         {
             if((sender as ListView).SelectedItem != null){
               var model =  (sender as ListView).SelectedItem as UserModel;
-                EditUserWindow window = new EditUserWindow(model);
+                EditUserWindow window = new EditUserWindow(model,admin);
                 window.Show();
             }
         }

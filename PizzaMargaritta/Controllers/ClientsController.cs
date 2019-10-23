@@ -39,6 +39,7 @@ namespace PizzaMargaritta.Controllers
                     user.LastName = model.LastName;
                     user.Number = model.Number;
                     user.IsBanned = model.IsBanned;
+                    _context.SaveChanges();
                     return Content("Edited succesfully");
                 }
                 return Content("BAN");
@@ -56,6 +57,7 @@ namespace PizzaMargaritta.Controllers
                 if (admin != null)
                 {
                     user.IsBanned = true;
+                    _context.SaveChanges();
                     return Content("Banned succesfully");
                 }
                 return Content("BAN");
