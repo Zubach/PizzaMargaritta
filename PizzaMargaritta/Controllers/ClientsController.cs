@@ -25,14 +25,42 @@ namespace PizzaMargaritta.Controllers
             return View();
         }
 
+        [HttpPut("{userlogin}/edit/{login}:{password}")]
+        public ContentResult Put([FromBody] UserForAdminModel model,string userlogin,string login,string password)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Login == userlogin);
+            if(user != null)
+            {
+                var admin = _context.Admins.FirstOrDefault(x => x.Login == login && x.Password == password);
+                if (admin != null)
+                {
+                    user.Login = model.Login;
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Number = model.Number;
+                    user.IsBanned = model.IsBanned;
+                    _context.SaveChanges();
+                    return Content("Edited succesfully");
+                }
+                return Content("BAN");
+            }
+            return Content("BAN");
+        }
+
         [HttpPut("{userlogin}/ban/{login}:{password}")]
         public ContentResult Ban( string userlogin, string login, string password)
         {
             var user = _context.Users.FirstOrDefault(x => x.Login == userlogin);
             if(user != null)
             {
-                user.IsBanned = true;
-                return Content("Banned succesfully");
+                var admin = _context.Admins.FirstOrDefault(x => x.Login == login && x.Password == password);
+                if (admin != null)
+                {
+                    user.IsBanned = true;
+                    _context.SaveChanges();
+                    return Content("Banned succesfully");
+                }
+                return Content("BAN");
             }
             return Content("BAN");
         }
