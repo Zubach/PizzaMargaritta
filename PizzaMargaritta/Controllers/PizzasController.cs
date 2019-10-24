@@ -19,7 +19,7 @@ namespace PizzaMargaritta.Controllers
     [ApiController]
     public class PizzasController : ControllerBase
     {
-        EFContext _context;
+        private readonly EFContext _context;
         private readonly IHostingEnvironment _env;
         private readonly IConfiguration _configuration;
         public PizzasController(EFContext context, IConfiguration configuration, IHostingEnvironment env)
@@ -34,7 +34,20 @@ namespace PizzaMargaritta.Controllers
         {
             
             var list = _context.Pizzas.ToList();
-            return Content(JsonConvert.SerializeObject(list));
+            List<PizzaModel> ModelList = new List<PizzaModel>();
+            foreach (var item in list)
+            {
+                ModelList.Add(
+                    new PizzaModel()
+                    {
+                        Name = item.Name,
+                        Description = item.Description,
+                        Image = item.Image,
+                        Price = item.Price
+                    }
+                    );
+            }
+            return Content(JsonConvert.SerializeObject(ModelList));
         }
 
         [HttpPost("add")]
@@ -45,7 +58,7 @@ namespace PizzaMargaritta.Controllers
             {
                 // Шлях до нашої папки з проектом
                 string directory = _env.ContentRootPath;
-                string path = Path.Combine(directory, "Content", _configuration["ProductImages"]);
+                string path = Path.Combine(directory, "Content", _configuration["PizzaImages"]);
                 nameOfImage = Path.GetRandomFileName() + ".jpg";
                 string pathToFile = Path.Combine(path, nameOfImage);
                 
@@ -56,8 +69,18 @@ namespace PizzaMargaritta.Controllers
                     image.Save(pathToFile, ImageFormat.Jpeg);
                 }
             }
-            return Content("");
+            Pizza pizza = new Pizza()
+            {
+                Name = model.Name,
+                Price = model.Price,
+                Description = model.Description,
+                Image = nameOfImage
+            };
+            _context.Pizzas.Add(pizza);
+            _context.SaveChanges();
+            return Content("Added succesfully");
         }
+
 
     }
 }
