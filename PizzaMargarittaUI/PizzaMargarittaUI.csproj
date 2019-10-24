@@ -226,6 +226,21 @@
   <ItemGroup>
     <Resource Include="Resources\secondflex.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\MozzarellaP.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PapperoniP.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\4 cheese pizz.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\2222_244cc.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\philadelphia.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
