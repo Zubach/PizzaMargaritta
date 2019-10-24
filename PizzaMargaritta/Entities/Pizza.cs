@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PizzaMargaritta.Entities
@@ -23,10 +24,7 @@ namespace PizzaMargaritta.Entities
         public string Image { get; set; }
 
 
-
-
-        public int OrderID { get; set; }
-
-        public Order Order { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+       
     }
 }
