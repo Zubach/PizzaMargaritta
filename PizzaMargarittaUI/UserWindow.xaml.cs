@@ -23,6 +23,8 @@ namespace PizzaMargarittaUI
     public partial class UserWindow : Window
     {
         UserModel CurrentUser;
+      
+        List<Pizza> To_basket = new List<Pizza>();
         public UserWindow(UserModel um)
         {
             InitializeComponent();
@@ -50,10 +52,13 @@ namespace PizzaMargarittaUI
 
         private void ListViewForPizza_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ForDesc.Text = (ListViewForPizza.SelectedItems[0] as Pizza).Description;
-           
-            Description_Dialog.IsOpen = true;
-            ButtonAcc.Opacity = 100;
+            if (ListViewForPizza.SelectedItems.Count>0)
+            {
+                ForDesc.Text = (ListViewForPizza.SelectedItems[0] as Pizza).Description;
+
+                Description_Dialog.IsOpen = true;
+                ButtonAcc.Opacity = 100;
+            }
 
         }
 
@@ -61,6 +66,26 @@ namespace PizzaMargarittaUI
         {
             ButtonAcc.Opacity = 0;
             Description_Dialog.IsOpen = false;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Basket basket = new Basket(To_basket);
+            basket.Owner = this;
+            this.Hide();
+            basket.Show();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            var item = ((StackPanel)(((Button)sender).Parent)).DataContext as Pizza;
+            ListViewForPizza.SelectedItem = item;
+            if (ListViewForPizza.SelectedItems.Count > 0)
+            {
+                To_basket.Add(ListViewForPizza.SelectedItems[0] as Pizza);
+                Badge.Badge = To_basket.Count;
+                ListViewForPizza.SelectedItems.Clear();
+            }
         }
     }
 }
