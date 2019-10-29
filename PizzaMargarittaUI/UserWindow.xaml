@@ -11,16 +11,21 @@
         TextOptions.TextRenderingMode="Auto"    
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="UserWindow" Height="450" Width="800" ResizeMode="NoResize">
-    <Grid>
+    <Grid Grid.IsSharedSizeScope="True">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="71*"></RowDefinition>
             <RowDefinition Height="348*"></RowDefinition>
         </Grid.RowDefinitions>
-        
- 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250*"></ColumnDefinition>
+            <ColumnDefinition Width="147*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
         <materialDesign:ColorZone 
             Grid.Row="0" 
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
   Foreground="White"
   Mode="Accent"
   Padding="16" Height="69">
@@ -38,25 +43,25 @@
                 <TextBlock FontSize="15" FontWeight="Bold" x:Name="TextUserName"
       VerticalAlignment="Center"/>
                 <materialDesign:Badged Name="Badge">
-                    
-                <Button Click="Button_Click_2" Width="30" Height="30" Margin="60,0,0,0"
+
+                    <Button Click="Button_Click_2" Width="30" Height="30" Margin="60,0,0,0"
   Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
   HorizontalAlignment="Left"
   ToolTip="MaterialDesignFloatingActionMiniButton">
-                    <materialDesign:PackIcon Kind="Basket" />
-                </Button>
+                        <materialDesign:PackIcon Kind="Basket" />
+                    </Button>
                 </materialDesign:Badged>
             </StackPanel>
         </materialDesign:ColorZone>
-        <ListView MouseDoubleClick="ListViewForPizza_MouseDoubleClick" Grid.Column="0" Grid.ColumnSpan="2"   Grid.Row="1" Name="ListViewForPizza" Background="{x:Null}">
+        <ListView   Grid.Column="0"   Grid.Row="1" Name="ListViewForPizza" Background="{x:Null}" SelectionChanged="ListViewForPizza_SelectionChanged">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
+                    <WrapPanel Width="{Binding ActualWidth, ElementName=ListViewForPizza}" Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel >
+                    <StackPanel>
                         <Image Width="100" Height="75" Source="{Binding Path=Image}" />
                         <TextBlock FontSize="16" Text="{Binding Path=Name}" HorizontalAlignment="Center" />
                         <TextBlock FontSize="16" Text="{Binding Path=Price}" HorizontalAlignment="Center" />
@@ -65,7 +70,33 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <materialDesign:DialogHost Panel.ZIndex="0" Grid.Row="0" Grid.RowSpan="2" Name="Description_Dialog">
+        <GroupBox Name="BoxOFPizza" Grid.Row="1" Grid.Column="2"
+             
+              Style="{DynamicResource MaterialDesignCardGroupBox}"
+              Margin="16">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
+                    Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="LocalPizza" Width="30" Height="30"/>
+                        <TextBlock
+                      Margin="8,0,0,0"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource MaterialDesignSubheadingTextBlock}"
+                      Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <StackPanel Height="250" Width="240">
+                <Image  Name="OurPizza"
+                
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center" Width="100" Height="100" />
+                <Label  Width="150" x:Name="gpricebox"/>
+                <TextBox AcceptsReturn="True" TextWrapping="Wrap" Height="130" Width="200" x:Name="gdescbox"/>
+            </StackPanel>
+        </GroupBox>
+        <!--<materialDesign:DialogHost Panel.ZIndex="0" Grid.Row="0" Grid.RowSpan="2" Name="Description_Dialog">
             <materialDesign:DialogHost.DialogContent >
                 <TextBox    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
     VerticalAlignment="Top"
@@ -77,15 +108,16 @@
     IsReadOnly="True"
     Name="ForDesc" ></TextBox>
             </materialDesign:DialogHost.DialogContent>
-            
-        </materialDesign:DialogHost>
+
+        </materialDesign:DialogHost>-->
+        <!--
         <Button Panel.ZIndex="1" Name="ButtonAcc" VerticalAlignment="Bottom"
             Grid.Row="1"
             Opacity="0"
     Style="{StaticResource MaterialDesignFlatButton}"
     Click="Button_Click_1"
-    ToolTip="MaterialDesignFlatButton" Width="100" Height="70" Margin="0,0,0,60">
+    ToolTip="MaterialDesignFlatButton" Height="70" Margin="162,0,162,60">
             ACCEPT
-        </Button>
+        </Button>-->
     </Grid>
 </Window>
