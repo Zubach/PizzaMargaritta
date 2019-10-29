@@ -74,9 +74,9 @@
              
               Style="{DynamicResource MaterialDesignCardGroupBox}"
               Margin="16">
-                        <GroupBox.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
                     Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="LocalPizza" Width="30" Height="30"/>
                         <TextBlock
@@ -84,13 +84,17 @@
                       VerticalAlignment="Center"
                       Style="{StaticResource MaterialDesignSubheadingTextBlock}"
                       Text="{Binding}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </GroupBox.HeaderTemplate>
-                    <Image Name="OurPizza"
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <StackPanel Height="250" Width="240">
+                <Image  Name="OurPizza"
                 
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center" />
+                HorizontalAlignment="Center" Width="100" Height="100" />
+                <Label  Width="150" x:Name="gpricebox"/>
+                <TextBox AcceptsReturn="True" TextWrapping="Wrap" Height="130" Width="200" x:Name="gdescbox"/>
+            </StackPanel>
         </GroupBox>
         <!--<materialDesign:DialogHost Panel.ZIndex="0" Grid.Row="0" Grid.RowSpan="2" Name="Description_Dialog">
             <materialDesign:DialogHost.DialogContent >
@@ -105,7 +109,8 @@
     Name="ForDesc" ></TextBox>
             </materialDesign:DialogHost.DialogContent>
 
-        </materialDesign:DialogHost>--><!--
+        </materialDesign:DialogHost>-->
+        <!--
         <Button Panel.ZIndex="1" Name="ButtonAcc" VerticalAlignment="Bottom"
             Grid.Row="1"
             Opacity="0"

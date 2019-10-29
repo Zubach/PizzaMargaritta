@@ -112,9 +112,14 @@ namespace PizzaMargarittaUI
 
         private void ListViewForPizza_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BoxOFPizza.Header = (ListViewForPizza.SelectedItem as Pizza).Name;
-            string path = Environment.CurrentDirectory + "/../../";
-            OurPizza.Source = new BitmapImage(new Uri(path+(ListViewForPizza.SelectedItem as Pizza).Image));
+            if (ListViewForPizza.SelectedItem != null)
+            {
+                BoxOFPizza.Header = (ListViewForPizza.SelectedItem as Pizza).Name;
+                string path = Environment.CurrentDirectory + "/../../";
+                OurPizza.Source = new BitmapImage(new Uri(path + (ListViewForPizza.SelectedItem as Pizza).Image));
+                gpricebox.Content = "Pizza`s price - > " + (ListViewForPizza.SelectedItem as Pizza).Price.ToString();
+                gdescbox.Text = (ListViewForPizza.SelectedItem as Pizza).Description;
+            }
 
         }
     }
