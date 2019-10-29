@@ -50,35 +50,41 @@ namespace PizzaMargaritta.Controllers
             return Content(JsonConvert.SerializeObject(ModelList));
         }
 
-        [HttpPost("add")]
-        public ContentResult Add([FromBody] PizzaModel model)
+        [HttpPost("add/{login}:{password}")]
+        public ContentResult Add([FromBody] PizzaModel model,string login,string password)
         {
-            string nameOfImage = string.Empty;
-            if (model.Image != null)
+            var admin = _context.Admins.FirstOrDefault(x => x.Login == login && x.Password == password);
+            if (admin != null)
             {
-                // Шлях до нашої папки з проектом
-                string directory = _env.ContentRootPath;
-                string path = Path.Combine(directory, "Content", _configuration["PizzaImages"]);
-                nameOfImage = Path.GetRandomFileName() + ".jpg";
-                string pathToFile = Path.Combine(path, nameOfImage);
-                
-                byte[] imageBytes = Convert.FromBase64String(model.Image);
-                using (MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                string nameOfImage = string.Empty;
+                if (model.Image != null)
                 {
-                    var image = Image.FromStream(ms);
-                    image.Save(pathToFile, ImageFormat.Jpeg);
+                    // Шлях до нашої папки з проектом
+                    string directory = _env.ContentRootPath;
+                    string path = Path.Combine(directory, "Content", _configuration["PizzaImages"]);
+                    // directory + "\\Content" + "\\" + _configuration["PizzaImages"];
+                    nameOfImage = Path.GetRandomFileName() + ".jpg";
+                    string pathToFile = Path.Combine(path, nameOfImage);
+
+                    byte[] imageBytes = Convert.FromBase64String(model.Image);
+                    using (MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        var image = Image.FromStream(ms);
+                        image.Save(pathToFile, ImageFormat.Jpeg);
+                    }
                 }
+                Pizza pizza = new Pizza()
+                {
+                    Name = model.Name,
+                    Price = model.Price,
+                    Description = model.Description,
+                    Image = nameOfImage
+                };
+                _context.Pizzas.Add(pizza);
+                _context.SaveChanges();
+                return Content("Added succesfully");
             }
-            Pizza pizza = new Pizza()
-            {
-                Name = model.Name,
-                Price = model.Price,
-                Description = model.Description,
-                Image = nameOfImage
-            };
-            _context.Pizzas.Add(pizza);
-            _context.SaveChanges();
-            return Content("Added succesfully");
+            return Content("BAN");
         }
 
 
