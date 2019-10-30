@@ -22,6 +22,20 @@
             <RowDefinition Height="6*"/>
 
         </Grid.RowDefinitions>
+        <DockPanel>
+            <Button
+    Style="{StaticResource MaterialDesignRaisedLightButton}"
+    Width="100"
+    >
+                USERS
+            </Button>
+            <Button
+    Style="{StaticResource MaterialDesignRaisedLightButton}"
+    Width="100"
+    >
+                PIZZAS
+            </Button>
+        </DockPanel>
 
         <ListView Grid.Row="1"
                   Name="listView"
