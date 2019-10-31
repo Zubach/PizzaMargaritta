@@ -28,7 +28,12 @@ namespace PizzaMargarittaAdminUI
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await Login();
+        }
+
+        async Task Login()
         {
             HttpWebRequest webRequest = WebRequest.CreateHttp($"https://localhost:44361/api/admins/{LoginTextBox.Text}:{PasswordBox.Password}");
             webRequest.Method = "GET";
@@ -39,7 +44,7 @@ namespace PizzaMargarittaAdminUI
                 StreamReader reader = new StreamReader(stream);
                 response = reader.ReadToEnd();
             }
-            if(response != "BAN")
+            if (response != "BAN")
             {
                 AdminModel admin = JsonConvert.DeserializeObject<AdminModel>(response);
                 MainWindow window = new MainWindow(admin);

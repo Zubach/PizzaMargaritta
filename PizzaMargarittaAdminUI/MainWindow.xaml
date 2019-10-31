@@ -22,23 +22,36 @@
             <RowDefinition Height="6*"/>
 
         </Grid.RowDefinitions>
-        <DockPanel>
-            <Button
+        <DockPanel LastChildFill="False">
+            <Button Margin="50,0,50,0"
+                    Click="Button_Click"
     Style="{StaticResource MaterialDesignRaisedLightButton}"
     Width="100"
     >
                 USERS
             </Button>
-            <Button
+            <Button Margin="50,0,50,0"
+                    Click="Button_Click_1"
     Style="{StaticResource MaterialDesignRaisedLightButton}"
     Width="100"
     >
                 PIZZAS
             </Button>
+
+            <Button Margin="50,0,50,0"
+                    Visibility="Hidden"
+                    
+                    Name="BtnAddPizza"
+    Style="{StaticResource MaterialDesignRaisedLightButton}"
+    Width="120"
+    >
+                ADD PIZZA
+            </Button>
         </DockPanel>
 
         <ListView Grid.Row="1"
-                  Name="listView"
+                  Name="listViewUser"
+                  
                   MouseDoubleClick="ListView_MouseDoubleClick">
             
             <ListView.View>
@@ -61,5 +74,29 @@
                 </GridView>
             </ListView.View>
         </ListView>
+
+
+
+
+        <ListView Grid.Row="1"
+                  Name="listViewPizza"
+                  Visibility="Hidden"
+                  MouseDoubleClick="ListViewPizza_MouseDoubleClick">
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn
+        DisplayMemberBinding="{Binding Name}"
+        Header="Name" />
+                    <GridViewColumn
+        DisplayMemberBinding="{Binding Price}"
+        Header="Price" />
+                    <GridViewColumn
+        DisplayMemberBinding="{Binding Description}"
+        Header="Description" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
     </Grid>
 </Window>

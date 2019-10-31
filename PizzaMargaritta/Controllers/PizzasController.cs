@@ -50,6 +50,25 @@ namespace PizzaMargaritta.Controllers
             return Content(JsonConvert.SerializeObject(ModelList));
         }
 
+        [HttpPut("edit/{name}/{login}:{password}")]
+        public ContentResult Edit([FromBody] PizzaModel model,string name,string login,string password)
+        {
+            var admin = _context.Admins.FirstOrDefault(x => x.Login == login && x.Password == password);
+            if (admin != null)
+            {
+                var pizza = _context.Pizzas.FirstOrDefault(x => x.Name == name);
+                if(pizza != null)
+                {
+                    pizza.Name = model.Name;
+                    pizza.Price = model.Price;
+                    pizza.Description = model.Description;
+                    _context.SaveChanges();
+                    return Content("Edited succesfully");
+                }
+            }
+            return Content("BAN");
+        }
+
         [HttpPost("add/{login}:{password}")]
         public ContentResult Add([FromBody] PizzaModel model,string login,string password)
         {
