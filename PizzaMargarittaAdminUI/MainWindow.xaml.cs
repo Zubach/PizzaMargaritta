@@ -118,7 +118,8 @@ namespace PizzaMargarittaAdminUI
             {
                 var model = (sender as ListView).SelectedItem as PizzaModel;
                 EditPizzaWindow window = new EditPizzaWindow(admin,model);
-                window.Show();
+                window.ShowDialog();
+                listViewPizza.Items.Refresh();
             }
         }
     }

@@ -47,9 +47,14 @@ namespace PizzaMargarittaAdminUI
             DescriptionTextBox.Text = model.Description;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            await Edit();
+           
+        }
 
+        public async Task  Edit()
+        {
             HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/pizzas/edit/{model.Name}/{admin.Login}:{admin.Password}");
             httpWebRequest.Method = "PUT";
 
@@ -57,7 +62,7 @@ namespace PizzaMargarittaAdminUI
             model.Price = decimal.Parse(PriceTextBox.Text);
             model.Description = DescriptionTextBox.Text;
 
-            using (Stream stream = httpWebRequest.GetRequestStream())
+            using (Stream stream = await httpWebRequest.GetRequestStreamAsync())
             {
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
@@ -66,7 +71,7 @@ namespace PizzaMargarittaAdminUI
             }
 
             string response = "";
-            WebResponse web = httpWebRequest.GetResponse();
+            WebResponse web = await httpWebRequest.GetResponseAsync();
             using (Stream stream = web.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(stream);
