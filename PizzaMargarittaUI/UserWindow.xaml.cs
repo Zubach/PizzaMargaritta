@@ -28,6 +28,7 @@ namespace PizzaMargarittaUI
         UserModel CurrentUser;
       
         List<Pizza> To_basket = new List<Pizza>();
+        List<int> pizas_count = new List<int>();
         List<Pizza> listOFPizzas = new List<Pizza>();
         public UserWindow(UserModel um)
         {
@@ -92,7 +93,7 @@ namespace PizzaMargarittaUI
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            Basket basket = new Basket(To_basket);
+            Basket basket = new Basket(To_basket, pizas_count);
             basket.Owner = this;
             this.Hide();
             basket.Show();
@@ -104,8 +105,26 @@ namespace PizzaMargarittaUI
             ListViewForPizza.SelectedItem = item;
             if (ListViewForPizza.SelectedItems.Count > 0)
             {
-                To_basket.Add(ListViewForPizza.SelectedItems[0] as Pizza);
-                Badge.Badge = To_basket.Count;
+                bool flag = false;
+                int i = 0;
+                foreach(var p in To_basket)
+                {
+                    if (p.Name == (ListViewForPizza.SelectedItems[0] as Pizza).Name)
+                    {
+                        pizas_count[i]++;
+                        flag = true;
+                    }
+                    i++;
+                }
+                if (flag == false)
+                {
+                    To_basket.Add(ListViewForPizza.SelectedItems[0] as Pizza);
+                    pizas_count.Add(1);
+                }
+                int basketCount = 0;
+                foreach (var p in pizas_count)
+                    basketCount = basketCount + p;
+                Badge.Badge = basketCount;
                 ListViewForPizza.SelectedItems.Clear();
             }
         }
