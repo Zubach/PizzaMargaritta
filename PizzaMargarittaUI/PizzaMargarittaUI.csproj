@@ -145,6 +145,7 @@
     <Compile Include="Basket.xaml.cs">
       <DependentUpon>Basket.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\BPizza.cs" />
     <Compile Include="Models\Pizza.cs" />
     <Compile Include="RefisterForm.xaml.cs">
       <DependentUpon>RefisterForm.xaml</DependentUpon>
@@ -240,6 +241,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\philadelphia.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ricardo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
