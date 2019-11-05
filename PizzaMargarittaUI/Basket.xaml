@@ -11,37 +11,6 @@
         TextOptions.TextRenderingMode="Auto"    
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
        
-        Title="Basket" Height="450" Width="800" Closing="Window_Closing">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="67*"></ColumnDefinition>
-            <ColumnDefinition Width="32*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="116*"></RowDefinition>
-            <RowDefinition Height="303*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <materialDesign:ColorZone Mode="Accent" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Padding="16" Foreground="White" FontSize="55" FontWeight="Bold" Height="115">
-            <StackPanel >
-                <TextBlock FontFamily="/PizzaMargarittaUI;component/#Black Jack" >Pizza Margaritta Basket</TextBlock>
-            </StackPanel>
-        </materialDesign:ColorZone>
-        <ListView Grid.Column="0"   Grid.Row="1" Name="ListViewForPizza" Background="{x:Null}">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Width="{Binding ActualWidth, ElementName=ListViewForPizza}" Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel  Orientation="Vertical">
-                        <Image Width="100" Height="75" Source="{Binding Path=Image}" />
-                        <TextBlock FontSize="16" Text="{Binding Path=Name}" HorizontalAlignment="Center" />
-                        <TextBlock FontSize="16" Text="{Binding Path=Price}" HorizontalAlignment="Center" />
-                        <TextBox HorizontalContentAlignment="Center" Width="30" Text="{Binding Path=ToBuy}" PreviewTextInput="TextBox_PreviewTextInput" MaxLength="2"></TextBox>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>
+        Title="Basket" Height="450" Width="800">
+    
 </Window>
