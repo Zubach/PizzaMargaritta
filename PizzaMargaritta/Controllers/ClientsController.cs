@@ -25,7 +25,7 @@ namespace PizzaMargaritta.Controllers
             return View();
         }
 
-        [HttpPut("{userlogin}/edit/{login}:{password}")]
+        [HttpPut("edit/{userlogin}/{login}:{password}")]
         public ContentResult Put([FromBody] UserForAdminModel model,string userlogin,string login,string password)
         {
             var user = _context.Users.FirstOrDefault(x => x.Login == userlogin);

@@ -1,14 +1,16 @@
-﻿<Window x:Class="PizzaMargarittaAdminUI.EditUserWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PizzaMargarittaAdminUI"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d"
-        Title="EditUserWindow" Height="450" Width="300"
-        >
+﻿<Page x:Class="PizzaMargarittaAdminUI.Pages.EditUserPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PizzaMargarittaAdminUI.Pages"
+       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EditUserWindow" >
+
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -16,18 +18,18 @@
             <RowDefinition/>
 
             <RowDefinition/>
-            
+
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        
+
 
         <TextBox
             
             Grid.Row="0"
   x:Name="LogintextBox"
   materialDesign:HintAssist.Hint="Login">
-            
+
         </TextBox>
 
 
@@ -35,7 +37,7 @@
             Grid.Row="1"
   x:Name="FirstNameTextBox"
   materialDesign:HintAssist.Hint="FirstName">
-            
+
         </TextBox>
 
 
@@ -44,24 +46,24 @@
             Grid.Row="2"
   x:Name="LastNameTextBox"
   materialDesign:HintAssist.Hint="LastName">
-            
+
         </TextBox>
 
         <TextBox
             Grid.Row="3"
   x:Name="NumberTextBox"
   materialDesign:HintAssist.Hint="Number">
-            
+
         </TextBox>
 
         <DockPanel Grid.Row="4" Margin="10">
-            
+
             <RadioButton
                 Name="RadioButtonTrue"
                 Margin="0,0,50,0"
     Style="{StaticResource MaterialDesignRadioButton}"
     Tag="True">
-                
+
                 True
             </RadioButton>
 
@@ -69,7 +71,7 @@
                 Name="RadioButtonFalse"
     Style="{StaticResource MaterialDesignRadioButton}"
     Tag="False">
-                
+
                 False
             </RadioButton>
 
@@ -95,5 +97,6 @@
             </Button>
         </DockPanel>
 
+
     </Grid>
-</Window>
+</Page>
