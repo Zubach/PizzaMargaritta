@@ -37,7 +37,7 @@ namespace PizzaMargarittaAdminUI
         {
             HttpWebRequest webRequest = WebRequest.CreateHttp($"https://localhost:44361/api/admins/{LoginTextBox.Text}:{PasswordBox.Password}");
             webRequest.Method = "GET";
-            WebResponse webResponse = webRequest.GetResponse();
+            WebResponse webResponse = (await webRequest.GetResponseAsync());
             string response = "";
             using (Stream stream = webResponse.GetResponseStream())
             {
