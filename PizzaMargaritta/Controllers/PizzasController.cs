@@ -106,6 +106,27 @@ namespace PizzaMargaritta.Controllers
             return Content("BAN");
         }
 
+        [HttpDelete("delete/{name}/{login}:{password}")]
+        public ContentResult Delete(string name,string login,string password)
+        {
+            var admin = _context.Admins.FirstOrDefault(x => x.Login == login && x.Password == password);
+            if(admin != null)
+            {
+                var pizza = _context.Pizzas.FirstOrDefault(x => x.Name == name);
+                
+                string directory = _env.ContentRootPath;
+                string path = Path.Combine(directory, "Content", _configuration["PizzaImages"]);
+
+                
+                string pathToFile = Path.Combine(path, pizza.Image);
+                System.IO.File.Delete(pathToFile);
+
+                _context.Pizzas.Remove(pizza);
+                _context.SaveChanges();
+                return Content("Deleted succesfully");
+            }
+            return Content("BAN");
+        }
 
     }
 }

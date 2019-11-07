@@ -119,5 +119,46 @@ namespace PizzaMargarittaAdminUI.Pages
 
             }
         }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeletePizza_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (listViewPizza.SelectedItem != null)
+            {
+                var selected = listViewPizza.SelectedItem as PizzaModel;
+              
+                HttpWebRequest webRequest = WebRequest.CreateHttp($"https://localhost:44361/api/pizzas/delete/{selected.Name}/{admin.Login}:{admin.Password}");
+                webRequest.Method = "DELETE";
+                var webResponse = webRequest.GetResponse();
+                string response = "";
+                using (Stream stream = webResponse.GetResponseStream())
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        response =  reader.ReadToEnd();
+                    }
+                }
+                // listViewPizza.SelectedItem = null;
+                pizzas.Remove(selected);
+                
+                listViewPizza.SelectedItem = null;
+                listViewPizza.Items.Refresh();
+            }
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchPizza_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

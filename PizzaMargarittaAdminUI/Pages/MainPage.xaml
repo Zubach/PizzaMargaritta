@@ -53,6 +53,13 @@
                   Name="listViewUser"
                   
                   MouseDoubleClick="ListView_MouseDoubleClick">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Click="Delete_Click"/>
+                    <Separator/>
+                    <MenuItem Header="Search" Click="Search_Click"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
 
             <ListView.View>
                 <GridView>
@@ -82,6 +89,13 @@
                   Name="listViewPizza"
                   Visibility="Hidden"
                   MouseDoubleClick="ListViewPizza_MouseDoubleClick">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Click="DeletePizza_Click"/>
+                    <Separator/>
+                    <MenuItem Header="Search" Click="SearchPizza_Click"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
 
             <ListView.View>
                 <GridView>
