@@ -30,15 +30,15 @@ namespace PizzaMargarittaUI.Pages
         List<Pizza> To_basket = new List<Pizza>();
         static public List<int> pizas_count = new List<int>();
         List<Pizza> listOFPizzas = new List<Pizza>();
-        public MainPage(List<int>count, List<Pizza> inbasket)
-        {
-            InitializeComponent();
-        }
-        public MainPage(UserModel um)
+        List<BPizza> Pizzas_toBasket = new List<BPizza>();
+        static int user_id;
+        public MainPage(UserModel um,int id)
         {
             InitializeComponent();
             TextUserName.Text = um.FirstName + " " + "\"" + um.Login + "\"" + " " + um.LastName;
             CurrentUser = um;
+
+            user_id = id;
 
             HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/pizzas");
             httpWebRequest.Method = "GET";
@@ -58,7 +58,7 @@ namespace PizzaMargarittaUI.Pages
                 item.Image = "https://localhost:44361/api/content/PizzaImages/" + item.Image;
             }
             listOFPizzas = list;
-
+            RefreshPizzasFromBasket();
             //Pizza pizza = new Pizza() { Name = "Mozzarella", Description = "Жоста з сирком і памідорками", Image = @"D:\Mozarella-pizza_cr.jpg", Price = 200 };
             //Pizza pizza2 = new Pizza() { Name = "Paperoni", Description = "Тупа с острими калбасками", Image = @"D:\Mozarella - pizza_cr.jpg", Price = 300 };
 
@@ -102,32 +102,31 @@ namespace PizzaMargarittaUI.Pages
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
+            
             var item = ((StackPanel)(((Button)sender).Parent)).DataContext as Pizza;
             ListViewForPizza.SelectedItem = item;
             if (ListViewForPizza.SelectedItems.Count > 0)
             {
                 bool flag = false;
-                int i = 0;
-                foreach (var p in To_basket)
+     
+                foreach (var p in Pizzas_toBasket)
                 {
-                    if (p.Name == (ListViewForPizza.SelectedItems[0] as Pizza).Name)
+                    if (p.Pizza_id == (ListViewForPizza.SelectedItems[0] as Pizza).id)
                     {
-                        pizas_count[i]++;
+                        p.Count_in++;
+                        AddPizzaToBasketEq(p);
                         flag = true;
                     }
-                    i++;
+             
                 }
                 if (flag == false)
                 {
-                    To_basket.Add(ListViewForPizza.SelectedItems[0] as Pizza);
-                    pizas_count.Add(1);
+
+                    AddPizzaToBasket(listOFPizzas[ListViewForPizza.SelectedIndex]);
                 }
-                int basketCount = 0;
-                foreach (var p in pizas_count)
-                    basketCount = basketCount + p;
-                Badge.Badge = basketCount;
                 ListViewForPizza.SelectedItems.Clear();
             }
+            
         }
 
         private void ListViewForPizza_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -142,6 +141,102 @@ namespace PizzaMargarittaUI.Pages
                 gdescbox.Text = item.Description;
             }
 
+        }
+
+        public void AddPizzaToBasket(Pizza pizza)
+        {
+            BPizza pizzaModel = new BPizza();
+            pizzaModel.Count_in = 1;
+            pizzaModel.Description = pizza.Description;
+            pizzaModel.Image = pizza.Image;
+            pizzaModel.Name = pizza.Name;
+            pizzaModel.Price = pizza.Price;
+            pizzaModel.Pizza_id = pizza.id;
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/post/{user_id}");
+            httpWebRequest.Method = "POST";
+            httpWebRequest.ContentType = "application/json";
+
+            
+
+            using (Stream stream = httpWebRequest.GetRequestStream())
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(JsonConvert.SerializeObject(pizzaModel));
+                }
+            }
+            string response = "";
+            WebResponse web = httpWebRequest.GetResponse();
+            using (Stream stream = web.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(stream);
+                response = reader.ReadToEnd();
+            }
+            RefreshPizzasFromBasket();
+        }
+
+
+        public void AddPizzaToBasketEq(BPizza pizza)
+        {
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/edit/{user_id}");
+            httpWebRequest.Method = "PUT";
+            httpWebRequest.ContentType = "application/json";
+            BPizza pizzaModel = pizza;
+
+            using (Stream stream = httpWebRequest.GetRequestStream())
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(JsonConvert.SerializeObject(pizzaModel));
+                }
+            }
+            string response = "";
+            WebResponse web = httpWebRequest.GetResponse();
+            using (Stream stream = web.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(stream);
+                response = reader.ReadToEnd();
+            }
+            RefreshPizzasFromBasket();
+        }
+
+        public void RefreshPizzasFromBasket()
+        {
+
+            try
+            {
+                HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/get/{user_id}");
+                httpWebRequest.Method = "GET";
+                httpWebRequest.ContentType = "application/json";
+                WebResponse web = httpWebRequest.GetResponse();
+                string response = "";
+                using (Stream stream = web.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(stream);
+                    response = reader.ReadToEnd();
+                }
+                if (response != "BAN")
+                {
+                    var list = JsonConvert.DeserializeObject<List<BPizza>>(response);
+
+                    foreach (var item in list)
+                    {
+                        item.Image = "https://localhost:44361/api/content/PizzaImages/" + item.Image;
+                    }
+                    Pizzas_toBasket = list;
+                    int lengthof = 0;
+                    foreach (var p in Pizzas_toBasket)
+                    {
+                        lengthof += p.Count_in;
+                    }
+             
+                    Badge.Badge = lengthof;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

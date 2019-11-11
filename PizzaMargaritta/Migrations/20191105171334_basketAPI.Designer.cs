@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaMargaritta.Entities;
 
 namespace PizzaMargaritta.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20191105171334_basketAPI")]
+    partial class basketAPI
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,13 +45,20 @@ namespace PizzaMargaritta.Migrations
 
                     b.Property<int>("Count_in");
 
-                    b.Property<int>("Pizza_id");
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Image")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<decimal>("Price");
 
                     b.Property<int>("User_id");
 
                     b.HasKey("id");
-
-                    b.HasIndex("Pizza_id");
 
                     b.HasIndex("User_id");
 
@@ -130,11 +139,6 @@ namespace PizzaMargaritta.Migrations
 
             modelBuilder.Entity("PizzaMargaritta.Entities.BasketPizza", b =>
                 {
-                    b.HasOne("PizzaMargaritta.Entities.Pizza", "pizza")
-                        .WithMany()
-                        .HasForeignKey("Pizza_id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("PizzaMargaritta.Entities.User", "user")
                         .WithMany("BasketPizzas")
                         .HasForeignKey("User_id")

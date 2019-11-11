@@ -35,9 +35,7 @@ namespace PizzaMargarittaUI
             await login();
         }
 
-        public async 
-        Task
-            login()
+        public async Task login()
         {
             
             httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/clients/login/{LoginBox.Text}:{PasswordBox.Password.ToString()}");
@@ -56,12 +54,29 @@ namespace PizzaMargarittaUI
 
             else
             {
+
                 currentUser = JsonConvert.DeserializeObject<UserModel>(response);
 
-                UserWindow uw = new UserWindow(currentUser);
-                uw.Owner = this;
-                this.Hide();
-                uw.Show();
+                httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/getl/{currentUser.Login}:{currentUser.Password}");
+                httpWebRequest.Method = "GET";
+                httpWebRequest.ContentType = "application/json";
+                WebResponse web2 = await httpWebRequest.GetResponseAsync();
+                string response2 = "";
+                using (Stream stream = web2.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(stream);
+                    response2 = reader.ReadToEnd();
+                }
+
+
+                string id = response2;
+                if (id != null)
+                {
+                    UserWindow uw = new UserWindow(currentUser,Convert.ToInt32(id));
+                    uw.Owner = this;
+                    this.Hide();
+                    uw.Show();
+                }
 
             }
         }
