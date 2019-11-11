@@ -51,6 +51,14 @@ namespace PizzaMargaritta.Controllers
             return Content(JsonConvert.SerializeObject(ModelList));
         }
 
+
+        [HttpGet("filtered/get")]
+        public ContentResult FilteredGet([FromBody] MultyFilter filter)
+        {
+
+            return Content("");
+        }
+
         [HttpPut("edit/{name}/{login}:{password}")]
         public ContentResult Edit([FromBody] PizzaModel model,string name,string login,string password)
         {
