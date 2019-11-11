@@ -15,25 +15,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PizzaMargarittaAdminUI
+namespace PizzaMargarittaAdminUI.Pages
 {
     /// <summary>
-    /// Interaction logic for EditPizzaWindow.xaml
+    /// Interaction logic for EditPizzaPage.xaml
     /// </summary>
-    public partial class EditPizzaWindow : Window
+    public partial class EditPizzaPage : Page
     {
-        AdminModel admin;
-        PizzaModel model;
-        public EditPizzaWindow()
+        private AdminModel admin;
+        private PizzaModel model;
+
+        public EditPizzaPage()
         {
             InitializeComponent();
-
         }
 
-
-        public EditPizzaWindow(AdminModel admin, PizzaModel model)
+        public EditPizzaPage(AdminModel admin,PizzaModel model)
         {
             InitializeComponent();
 
@@ -43,17 +43,15 @@ namespace PizzaMargarittaAdminUI
             NameTextBox.Text = model.Name;
             PriceTextBox.Text = model.Price.ToString();
             Image.Source = (ImageSource)converter.ConvertFromString(@"https://localhost:44361/api/content/pizzaimages/" + model.Image);
-             
+
             DescriptionTextBox.Text = model.Description;
         }
-
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             await Edit();
-           
         }
 
-        public async Task  Edit()
+        public async Task Edit()
         {
             HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/pizzas/edit/{model.Name}/{admin.Login}:{admin.Password}");
             httpWebRequest.Method = "PUT";
@@ -77,12 +75,12 @@ namespace PizzaMargarittaAdminUI
                 StreamReader reader = new StreamReader(stream);
                 response = reader.ReadToEnd();
             }
-            this.Close();
+            this.NavigationService.GoBack();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.NavigationService.GoBack();
         }
     }
 }

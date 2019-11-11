@@ -14,16 +14,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PizzaMargarittaAdminUI
+namespace PizzaMargarittaAdminUI.Pages
 {
     /// <summary>
-    /// Interaction logic for LoginWindow.xaml
+    /// Interaction logic for LoginPage.xaml
     /// </summary>
-    public partial class LoginWindow : Window
+    public partial class LoginPage : Page
     {
-        public LoginWindow()
+        public LoginPage()
         {
             InitializeComponent();
         }
@@ -37,7 +38,7 @@ namespace PizzaMargarittaAdminUI
         {
             HttpWebRequest webRequest = WebRequest.CreateHttp($"https://localhost:44361/api/admins/{LoginTextBox.Text}:{PasswordBox.Password}");
             webRequest.Method = "GET";
-            WebResponse webResponse = await webRequest.GetResponseAsync();
+            WebResponse webResponse = (await webRequest.GetResponseAsync());
             string response = "";
             using (Stream stream = webResponse.GetResponseStream())
             {
@@ -49,9 +50,8 @@ namespace PizzaMargarittaAdminUI
                 AdminModel admin = JsonConvert.DeserializeObject<AdminModel>(response);
 
 
-                MainWindow window = new MainWindow(admin);
-                window.Show();
-                this.Close();
+                this.NavigationService.Navigate(new MainPage(admin));
+               
 
 
             }

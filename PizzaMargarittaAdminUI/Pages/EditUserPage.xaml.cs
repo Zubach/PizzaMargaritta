@@ -15,23 +15,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PizzaMargarittaAdminUI
+namespace PizzaMargarittaAdminUI.Pages
 {
     /// <summary>
-    /// Interaction logic for EditUserWindow.xaml
+    /// Interaction logic for EditUserPage.xaml
     /// </summary>
-    public partial class EditUserWindow : Window
+    public partial class EditUserPage : Page
     {
-        UserModel user;
-        AdminModel admin;
-        public EditUserWindow()
+        private UserModel user;
+        private AdminModel admin;
+        public EditUserPage()
         {
             InitializeComponent();
         }
 
-        public EditUserWindow(UserModel model, AdminModel adminModel)
+        public EditUserPage(UserModel model, AdminModel adminModel)
         {
             InitializeComponent();
             user = model;
@@ -43,19 +44,16 @@ namespace PizzaMargarittaAdminUI
             LastNameTextBox.Text = user.LastName;
             NumberTextBox.Text = user.Number;
             RadioButtonFalse.IsChecked = !user.IsBanned;
-
-          
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-
+            this.NavigationService.GoBack();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest httpWebRequest= WebRequest.CreateHttp($"https://localhost:44361/api/clients/{user.Login}/edit/{admin.Login}:{admin.Password}");
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/clients/edit/{user.Login}/{admin.Login}:{admin.Password}");
             httpWebRequest.Method = "PUT";
             UserModel userModel = new UserModel()
             {
@@ -76,12 +74,11 @@ namespace PizzaMargarittaAdminUI
 
             string response = "";
             WebResponse web = httpWebRequest.GetResponse();
-            using (Stream stream = web.GetResponseStream())
+            using (StreamReader reader = new StreamReader(web.GetResponseStream()))
             {
-                StreamReader reader = new StreamReader(stream);
                 response = reader.ReadToEnd();
             }
-            MessageBox.Show(response);
+            this.NavigationService.GoBack();
         }
     }
 }
