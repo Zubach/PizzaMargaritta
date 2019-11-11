@@ -158,7 +158,13 @@ namespace PizzaMargarittaAdminUI.Pages
 
         private void SearchPizza_Click(object sender, RoutedEventArgs e)
         {
+            this.NavigationService.Navigate(new SearchPizzaPage(admin));
+        }
 
+        private void AddPizzaBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new AddPizzaPage(admin));
+           
         }
     }
 }

@@ -4,11 +4,86 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PizzaMargarittaAdminUI.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddPizzaPage">
 
     <Grid>
-        
+
+
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0">
+            <TextBox
+                Margin="10,10,10,0"
+  x:Name="NameTextBox"
+  materialDesign:HintAssist.Hint="Name">
+
+            </TextBox>
+
+            <TextBox
+                Margin="10,50,10,0"
+                Name="PriceTextBox"
+  materialDesign:HintAssist.Hint="Price"
+  Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+            <TextBox
+                Name="DescriptionTextBox"
+    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+    Margin="5,50,10,0"
+    VerticalAlignment="Top"
+    Height="100"
+    AcceptsReturn="True"
+    TextWrapping="Wrap"
+    VerticalScrollBarVisibility="Auto"
+    materialDesign:HintAssist.Hint="Description"
+     />
+
+
+            <DockPanel Margin="30,70,0,0" LastChildFill="False">
+                <Button
+                    Click="Button_Click"
+                    Margin="10,0,0,0"
+            Style="{StaticResource MaterialDesignRaisedLightButton}"
+            Width="100"
+            >
+                    ACCEPT
+                </Button>
+
+                <Button Margin="30,0,0,0"
+                        Click="Button_Click_1"
+            Style="{StaticResource MaterialDesignRaisedLightButton}"
+            Width="100"
+            >
+                    CANCEL
+                </Button>
+            </DockPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <Image
+            Height="300"
+            Margin="20"
+            
+            Name="Image">
+
+            </Image>
+            <DockPanel>
+                <TextBox
+                    x:Name="PathTextBox"
+                     Width="375"/>
+                <Button
+                    Click="BrowseBtn_Click"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Width="50"
+    >
+                    ...
+                </Button>
+            </DockPanel>
+        </StackPanel>
     </Grid>
 </Page>

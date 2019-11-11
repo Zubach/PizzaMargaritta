@@ -40,7 +40,7 @@
 
             <Button Margin="50,0,50,0"
                     Visibility="Hidden"
-                    
+                    Click="AddPizzaBtn_Click"
                     Name="BtnAddPizza"
     Style="{StaticResource MaterialDesignRaisedLightButton}"
     Width="120"
