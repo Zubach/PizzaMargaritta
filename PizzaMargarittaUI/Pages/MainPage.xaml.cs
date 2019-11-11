@@ -97,7 +97,7 @@ namespace PizzaMargarittaUI.Pages
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
        
-            this.NavigationService.Navigate(new Basket(To_basket, pizas_count));
+            this.NavigationService.Navigate(new Basket(To_basket, pizas_count,user_id));
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
