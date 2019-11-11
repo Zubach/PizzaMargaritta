@@ -25,7 +25,6 @@ namespace PizzaMargaritta.Controllers
         public ContentResult GetAll(int userid)
         {
             List<BasketPizzaModel> bpm = new List<BasketPizzaModel>();
-            bool flag = false;
             //foreach (var p in _context.pizzas_in_basket.AsQueryable())
             //{
             //    if (p.User_id == userid)
