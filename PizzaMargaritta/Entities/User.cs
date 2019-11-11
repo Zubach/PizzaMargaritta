@@ -42,5 +42,7 @@ namespace PizzaMargaritta.Entities
             return user != null &&
                    Login == user.Login || Number == user.Number;
         }
+
+        public virtual ICollection<BasketPizza> BasketPizzas { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace PizzaMargarittaUI.Pages
                 bp.Image = forbasket[i].Image;
                 bp.Name = forbasket[i].Name;
                 bp.Price = forbasket[i].Price;
-                bp.ToBuy = pizzas_count[i];
+                bp.Count_in = pizzas_count[i];
                 basket.Add(bp);
             }
             ListViewForPizza.ItemsSource = basket;

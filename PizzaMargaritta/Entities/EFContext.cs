@@ -20,5 +20,6 @@ namespace PizzaMargaritta.Entities
         public DbSet<User> Users { get; set; }
 
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<BasketPizza> pizzas_in_basket { get; set; }
     }
 }

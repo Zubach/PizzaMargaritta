@@ -26,10 +26,11 @@ namespace PizzaMargarittaUI
     /// </summary>
     public partial class UserWindow : Window
     {
-        public UserWindow(UserModel um)
+        
+        public UserWindow(UserModel um,int user_id)
         {
             InitializeComponent();
-            frame.Navigate(new MainPage(um));
+            frame.Navigate(new MainPage(um,user_id));
 
         }
     }

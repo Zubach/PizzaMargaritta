@@ -43,7 +43,8 @@ namespace PizzaMargaritta.Controllers
                         Name = item.Name,
                         Description = item.Description,
                         Image = item.Image,
-                        Price = item.Price
+                        Price = item.Price,
+                        id = item.ID,
                     }
                     );
             }

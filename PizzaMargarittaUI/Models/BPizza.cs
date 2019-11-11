@@ -21,6 +21,8 @@ namespace PizzaMargarittaUI.Models
 
         public string Image { get; set; }
 
-        public int ToBuy { get; set; }
+        public int Count_in { get; set; }
+
+        public int Pizza_id { get; set; }
     }
 }

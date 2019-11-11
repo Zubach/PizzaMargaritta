@@ -90,6 +90,7 @@ namespace PizzaMargaritta.Controllers
             return Content("Ti ne admin");
         }
 
+
         [HttpGet("login/{login}:{password}")]
         public ContentResult Login(string login,string password)
         {
