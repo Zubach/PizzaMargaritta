@@ -1,4 +1,6 @@
-﻿using PizzaMargaritta.Models;
+﻿using Newtonsoft.Json;
+using PizzaMargaritta;
+using PizzaMargaritta.Models;
 using PizzaMargarittaAdminUI.Models;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,7 @@ namespace PizzaMargarittaAdminUI.Pages
     public partial class SearchPizzaPage : Page
     {
         AdminModel admin;
+        List<PizzaModel> pizzas;
         public SearchPizzaPage()
         {
             InitializeComponent();
@@ -38,7 +41,49 @@ namespace PizzaMargarittaAdminUI.Pages
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
+            MultyFilter filter = new MultyFilter();
+            if(NameTextBox.Text != "")
+            {
+                List<string> conditions = new List<string>() { "=="};
+                List<string> values = new List<string>() { NameTextBox.Text };
+                filter.Filters.Add(new Filter() {PropertyName="Name",Conditions=conditions,Values= values});
+            
+            }
+            if(FromTextBox.Text != "")
+            {
+                List<string> conditions = new List<string>() { ">=" };
+                List<string> values = new List<string>() { FromTextBox.Text };
+                filter.Filters.Add(new Filter() { PropertyName = "Price", Conditions = conditions, Values = values });
+            }
+            if(ToTextBox.Text != "")
+            {
+                List<string> conditions = new List<string>() { "<=" };
+                List<string> values = new List<string>() { ToTextBox.Text };
+                filter.Filters.Add(new Filter() { PropertyName = "Price", Conditions = conditions, Values = values });
+            }
 
+            HttpWebRequest webRequest = WebRequest.CreateHttp($"https://localhost:44361/api/pizzas/filtered/get");
+            webRequest.Method = "PUT";
+         
+            using (Stream stream = webRequest.GetRequestStream())
+            {
+                using(StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(JsonConvert.SerializeObject(filter));
+                }
+            }
+            var webResponse = webRequest.GetResponse();
+            string response = "";
+            using(Stream stream = webResponse.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    response = reader.ReadToEnd();
+                }
+            }
+
+            pizzas = (JsonConvert.DeserializeObject<List<PizzaModel>>(response));
+            listViewPizza.ItemsSource = pizzas;
         }
 
         private void DeletePizza_Click(object sender, RoutedEventArgs e)
