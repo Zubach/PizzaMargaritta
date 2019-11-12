@@ -38,6 +38,17 @@
                 PIZZAS
             </Button>
 
+            <Button
+                Click="RefreshBtn_Click"
+                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                    HorizontalAlignment="Left"
+  >
+                <materialDesign:PackIcon
+                     Kind="Refresh"
+                        Height="24"
+                        Width="24" />
+            </Button>
+
             <Button Margin="50,0,50,0"
                     Visibility="Hidden"
                     Click="AddPizzaBtn_Click"
