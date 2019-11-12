@@ -7,6 +7,6 @@ namespace PizzaMargaritta
 {
     public class MultyFilter
     {
-        public ICollection<Filter> Filters { get; set; }
+        public List<Filter> Filters { get; set; }
     }
 }
