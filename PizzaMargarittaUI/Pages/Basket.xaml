@@ -39,7 +39,7 @@
                         <Image Width="100" Height="75" Source="{Binding Path=Image}" />
                         <TextBlock FontSize="16" Text="{Binding Path=Name}" HorizontalAlignment="Center" />
                         <TextBlock FontSize="16" Text="{Binding Path=Price}" HorizontalAlignment="Center" />
-                        <TextBox HorizontalContentAlignment="Center" Width="30" Text="{Binding Path=Count_in}" PreviewTextInput="TextBox_PreviewTextInput" MaxLength="2"></TextBox>
+                        <TextBox HorizontalContentAlignment="Center" Width="30" Text="{Binding Path=Count_in}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="TextBox_TextChanged" MaxLength="2"></TextBox>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -51,5 +51,6 @@
                 </ToolTip>
             </materialDesign:PackIcon.ToolTip>
         </materialDesign:PackIcon>
+        <Button Grid.Column="2" Grid.Row="2" Height="40" Width="170" Click="Button_Click">Delete From Basket</Button>
     </Grid>
 </Page>

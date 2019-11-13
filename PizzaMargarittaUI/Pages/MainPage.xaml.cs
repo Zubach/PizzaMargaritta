@@ -97,7 +97,7 @@ namespace PizzaMargarittaUI.Pages
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
        
-            this.NavigationService.Navigate(new Basket(To_basket, pizas_count,user_id));
+            this.NavigationService.Navigate(new Basket(CurrentUser, user_id));
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -152,6 +152,7 @@ namespace PizzaMargarittaUI.Pages
             pizzaModel.Name = pizza.Name;
             pizzaModel.Price = pizza.Price;
             pizzaModel.Pizza_id = pizza.id;
+        
             HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/post/{user_id}");
             httpWebRequest.Method = "POST";
             httpWebRequest.ContentType = "application/json";
@@ -178,26 +179,28 @@ namespace PizzaMargarittaUI.Pages
 
         public void AddPizzaToBasketEq(BPizza pizza)
         {
-            HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/edit/{user_id}");
-            httpWebRequest.Method = "PUT";
-            httpWebRequest.ContentType = "application/json";
-            BPizza pizzaModel = pizza;
-
-            using (Stream stream = httpWebRequest.GetRequestStream())
+            if (pizza.Count_in != 99)
             {
-                using (StreamWriter writer = new StreamWriter(stream))
+                HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/edit/{user_id}");
+                httpWebRequest.Method = "PUT";
+                httpWebRequest.ContentType = "application/json";
+                BPizza pizzaModel = pizza;
+                using (Stream stream = httpWebRequest.GetRequestStream())
                 {
-                    writer.Write(JsonConvert.SerializeObject(pizzaModel));
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        writer.Write(JsonConvert.SerializeObject(pizzaModel));
+                    }
                 }
+                string response = "";
+                WebResponse web = httpWebRequest.GetResponse();
+                using (Stream stream = web.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(stream);
+                    response = reader.ReadToEnd();
+                }
+                RefreshPizzasFromBasket();
             }
-            string response = "";
-            WebResponse web = httpWebRequest.GetResponse();
-            using (Stream stream = web.GetResponseStream())
-            {
-                StreamReader reader = new StreamReader(stream);
-                response = reader.ReadToEnd();
-            }
-            RefreshPizzasFromBasket();
         }
 
         public void RefreshPizzasFromBasket()
