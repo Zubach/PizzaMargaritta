@@ -20,5 +20,14 @@ namespace PizzaMargaritta.Models
 
         public string Image { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            var model = obj as PizzaModel;
+            return model != null &&
+                   Name == model.Name &&
+                   Price == model.Price &&
+                   Description == model.Description &&
+                   Image == model.Image;
+        }
     }
 }

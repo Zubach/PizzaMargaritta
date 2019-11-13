@@ -78,6 +78,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Filter.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -114,6 +115,7 @@
     <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\PizzaModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="MultyFilter.cs" />
     <Compile Include="Pages\AddPizzaPage.xaml.cs">
       <DependentUpon>AddPizzaPage.xaml</DependentUpon>
     </Compile>
