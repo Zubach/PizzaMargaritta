@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PizzaMargaritta.Models;
 using PizzaMargarittaUI.Models;
 using System;
 using System.Collections.Generic;
@@ -24,16 +25,17 @@ namespace PizzaMargarittaUI.Pages
     /// </summary>
     public partial class Basket : Page
     {
-        List<Pizza> forbasket = new List<Pizza>();
-        List<int> pizzas_count = new List<int>();
+      
+ 
         List<BPizza> basket = new List<BPizza>();
-       
-        public Basket(List<Pizza> l, List<int> counts, int user_id)
+        UserModel User;
+        int user_id;
+        public Basket(UserModel model,int user_id)
         {
             InitializeComponent();
-            forbasket = l;
-            pizzas_count = counts;
 
+            User = model;
+            this.user_id = user_id;
             HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/get/{user_id}");
             httpWebRequest.Method = "GET";
             httpWebRequest.ContentType = "application/json";
@@ -71,7 +73,33 @@ namespace PizzaMargarittaUI.Pages
             //ListViewForPizza.ItemsSource = basket;
 
         }
+        void refresh()
+        {
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/get/{user_id}");
+            httpWebRequest.Method = "GET";
+            httpWebRequest.ContentType = "application/json";
+            WebResponse web = httpWebRequest.GetResponse();
+            string response = "";
+            using (Stream stream = web.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(stream);
+                response = reader.ReadToEnd();
+            }
+            if (response == "BAN")
+                ListViewForPizza.ItemsSource = null;
+            else
+            {
+                var list = JsonConvert.DeserializeObject<List<BPizza>>(response);
 
+                foreach (var item in list)
+                {
+                    item.Image = "https://localhost:44361/api/content/PizzaImages/" + item.Image;
+                }
+                basket = list;
+
+                ListViewForPizza.ItemsSource = basket;
+            }
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             
@@ -79,13 +107,77 @@ namespace PizzaMargarittaUI.Pages
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (!Char.IsDigit(e.Text, 0)) e.Handled = true;
-        }
 
+            if (!Char.IsDigit(e.Text, 0)) e.Handled = true;
+        
+          
+        }
+      
         private void ExitIcon_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-          
-            this.NavigationService.GoBack();
+
+
+            this.NavigationService.Navigate(new MainPage(User, user_id));
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+            var item = ((StackPanel)(((TextBox)sender).Parent)).DataContext as BPizza;
+                ListViewForPizza.SelectedItem = item;
+                if ((sender as TextBox).Text.Length > 0)
+                {
+                    HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/edit/{user_id}");
+                    httpWebRequest.Method = "PUT";
+                    httpWebRequest.ContentType = "application/json";
+                    BPizza pizzaModel = basket[ListViewForPizza.SelectedIndex];
+                    pizzaModel.Count_in = Convert.ToInt32((sender as TextBox).Text);
+
+                    using (Stream stream = httpWebRequest.GetRequestStream())
+                    {
+                        using (StreamWriter writer = new StreamWriter(stream))
+                        {
+                            writer.Write(JsonConvert.SerializeObject(pizzaModel));
+                        }
+                    }
+                    string response = "";
+                    WebResponse web = httpWebRequest.GetResponse();
+                    using (Stream stream = web.GetResponseStream())
+                    {
+                        StreamReader reader = new StreamReader(stream);
+                        response = reader.ReadToEnd();
+                    }
+                    refresh();
+                }
+         
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListViewForPizza.SelectedItems.Count > 0)
+            {
+                HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/basketpizzas/DEL/{user_id}");
+                httpWebRequest.Method = "DELETE";
+                httpWebRequest.ContentType = "application/json";
+                BPizza pizzaModel = basket[ListViewForPizza.SelectedIndex];
+
+                using (Stream stream = httpWebRequest.GetRequestStream())
+                {
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        writer.Write(JsonConvert.SerializeObject(pizzaModel));
+                    }
+                }
+                string response = "";
+                WebResponse web = httpWebRequest.GetResponse();
+                using (Stream stream = web.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(stream);
+                    response = reader.ReadToEnd();
+                }
+                refresh();
+            }
         }
     }
 }

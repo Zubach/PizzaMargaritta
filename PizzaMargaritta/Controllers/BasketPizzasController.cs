@@ -25,30 +25,6 @@ namespace PizzaMargaritta.Controllers
         public ContentResult GetAll(int userid)
         {
             List<BasketPizzaModel> bpm = new List<BasketPizzaModel>();
-            //foreach (var p in _context.pizzas_in_basket.AsQueryable())
-            //{
-            //    if (p.User_id == userid)
-            //    {
-            //        foreach (var x in _context.Pizzas.AsQueryable())
-            //        {
-            //            if (x.ID == p.Pizza_id)
-            //            {
-            //                BasketPizzaModel basketPizzaModel = new BasketPizzaModel()
-            //                {
-            //                    Name = x.Name,
-            //                    Description = x.Description,
-            //                    Image = x.Image,
-            //                    Price = x.Price,
-            //                    Count_in = p.Count_in,
-            //                };
-            //                bpm.Add(basketPizzaModel);
-            //                flag = true;
-            //                break;
-            //            }
-
-            //        }
-            //    }
-            //}
             var models = _context.pizzas_in_basket
                 .Include(t=>t.pizza)
                 .Where(t => t.User_id == userid)
@@ -130,18 +106,26 @@ namespace PizzaMargaritta.Controllers
 
         }
 
-        [HttpDelete("DEL")]
-        public void Delete([FromBody]BasketPizzaModel model)
+        [HttpDelete("DEL/{user_id}")]
+        public ContentResult Delete([FromBody]BasketPizzaModel model, int user_id)
         {
+            BasketPizza bp = null;
             foreach(var p in _context.pizzas_in_basket)
             {
-                if(p.Equals(model))
+                if(p.User_id == user_id && p.Pizza_id == model.Pizza_id)
                 {
-                    _context.pizzas_in_basket.Remove(p);
-                    _context.SaveChanges();
+                    bp = p;
                     break;
+               
                 }
             }
+            if(bp != null)
+            {
+                _context.pizzas_in_basket.Remove(bp);
+                _context.SaveChanges();
+                return Content("succsesfuly");
+            }
+            return Content("BAN");
         }
 
     }
