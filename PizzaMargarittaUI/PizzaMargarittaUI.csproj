@@ -146,12 +146,16 @@
       <DependentUpon>Basket.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\BPizza.cs" />
+    <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\Pizza.cs" />
     <Compile Include="Pages\Basket.xaml.cs">
       <DependentUpon>Basket.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Orders.xaml.cs">
+      <DependentUpon>Orders.xaml</DependentUpon>
     </Compile>
     <Compile Include="RefisterForm.xaml.cs">
       <DependentUpon>RefisterForm.xaml</DependentUpon>
@@ -187,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Orders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

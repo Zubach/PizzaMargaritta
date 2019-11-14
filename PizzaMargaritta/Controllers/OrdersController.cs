@@ -9,6 +9,8 @@ using PizzaMargaritta.Models;
 
 namespace PizzaMargaritta.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class OrdersController : Controller
     {
         private readonly EFContext _context;
@@ -30,6 +32,14 @@ namespace PizzaMargaritta.Controllers
             return Content(JsonConvert.SerializeObject(list));
         }
 
+        [HttpGet("getL/{login}:{password}")]
+        public ContentResult GetOrdersUser(string login, string password)
+        {
+            var list = _context.Orders.Where(x => x.User.Login == login && x.User.Password == password);
+            return Content(JsonConvert.SerializeObject(list.ToList()));
+        }
+
+
         [HttpPost("add/{login}:{password}")]
         public ContentResult AddOrder([FromBody] OrderModel model,string login,string password)
         {
@@ -44,6 +54,7 @@ namespace PizzaMargaritta.Controllers
                         PizzaID = model.PizzaID
                     }
                     );
+                _context.SaveChanges();
                 return Content("Your order added succesfully");
             }
             return Content("BAN");

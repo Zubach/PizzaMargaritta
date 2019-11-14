@@ -37,7 +37,8 @@ namespace PizzaMargarittaUI.Pages
             InitializeComponent();
             TextUserName.Text = um.FirstName + " " + "\"" + um.Login + "\"" + " " + um.LastName;
             CurrentUser = um;
-
+            
+           
             user_id = id;
 
             HttpWebRequest httpWebRequest = WebRequest.CreateHttp($"https://localhost:44361/api/pizzas");
@@ -240,6 +241,11 @@ namespace PizzaMargarittaUI.Pages
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Orders(CurrentUser, user_id,listOFPizzas));
         }
     }
 }

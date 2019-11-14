@@ -1,4 +1,4 @@
-﻿<Page x:Class="PizzaMargarittaUI.Pages.MainPage"
+﻿<Page x:Class="PizzaMargarittaUI.Pages.Orders"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,8 +6,8 @@
       xmlns:local="clr-namespace:PizzaMargarittaUI.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainPage"
-        TextElement.FontWeight="Regular"
+      Title="Orders"
+              TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"    
@@ -31,6 +31,7 @@
   Foreground="White"
   Mode="Accent"
   Padding="16" Height="69">
+            
             <StackPanel
     Orientation="Horizontal">
 
@@ -46,62 +47,60 @@
       VerticalAlignment="Center"/>
                 <materialDesign:Badged Name="Badge">
 
-                    <Button Click="Button_Click_2" Width="30" Height="30" Margin="60,0,0,0"
-  Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
-  HorizontalAlignment="Left"
-  ToolTip="MaterialDesignFloatingActionMiniButton">
-                        <materialDesign:PackIcon Kind="Basket" />
-                    </Button>
+                    
                 </materialDesign:Badged>
             </StackPanel>
 
-  
+
         </materialDesign:ColorZone>
 
-            <ListView   Grid.Column="0"   Grid.Row="1" Name="ListViewForPizza" Background="{x:Null}" SelectionChanged="ListViewForPizza_SelectionChanged">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Width="{Binding ActualWidth, ElementName=ListViewForPizza}" Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Image Width="100" Height="75" Source="{Binding Path=Image}" />
-                            <TextBlock FontSize="16" Text="{Binding Path=Name}" HorizontalAlignment="Center" />
-                            <TextBlock FontSize="16" Text="{Binding Path=Price}" HorizontalAlignment="Center" />
-                            <Button Content="To basket" Click="Button_Click_3"></Button>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <GroupBox Name="BoxOFPizza" Grid.Row="1" Grid.Column="2"
+        <ListView   Grid.Column="0"  SelectionChanged="ListViewForOrders_SelectionChanged" Grid.Row="1" Name="ListViewForOrders" Background="{x:Null}" >
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Width="{Binding ActualWidth, ElementName=ListViewForPizza}" Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Width="100" Height="75" Text="{Binding Path=Address}" />
+                        <TextBlock Width="100" Height="75" Text="{Binding Path=ID}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <materialDesign:PackIcon MouseLeftButtonDown="ExitIcon_MouseDoubleClick" Foreground="White" Name="Back"  Kind="ArrowBackCircle" Height="40" Width="40" Grid.Column="1" VerticalAlignment="Center" Margin="190,0,0,0">
+            <materialDesign:PackIcon.ToolTip>
+                <ToolTip>
+                    Go back
+                </ToolTip>
+            </materialDesign:PackIcon.ToolTip>
+        </materialDesign:PackIcon>
+        <GroupBox Name="BoxOFPizza" Grid.Row="1" Grid.Column="2"
              
               Style="{DynamicResource MaterialDesignCardGroupBox}"
               Margin="16">
-                <GroupBox.HeaderTemplate>
-                    <DataTemplate>
-                        <StackPanel
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
                     Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="LocalPizza" Width="30" Height="30"/>
-                            <TextBlock
+                        <materialDesign:PackIcon Kind="LocalPizza" Width="30" Height="30"/>
+                        <TextBlock
                       Margin="8,0,0,0"
                       VerticalAlignment="Center"
                       Style="{StaticResource MaterialDesignSubheadingTextBlock}"
                       Text="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </GroupBox.HeaderTemplate>
-                <StackPanel Height="250" Width="240">
-                    <Image  Name="OurPizza"
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <StackPanel Height="250" Width="240">
+                <Image  Name="OurPizza"
                 
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center" Width="100" Height="100" />
-                    <Label  Width="150" x:Name="gpricebox"/>
-                    <TextBox AcceptsReturn="True" TextWrapping="Wrap" Height="130" Width="200" x:Name="gdescbox"/>
-                </StackPanel>
-            </GroupBox>
-        <Button Grid.Column="2" Width="100" Click="Button_Click_1">Your Orders</Button>
-        </Grid>
-       
+                <Label  Width="150" x:Name="gpricebox"/>
+                <TextBox AcceptsReturn="True" TextWrapping="Wrap" Height="130" Width="200" x:Name="gdescbox"/>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
 </Page>

@@ -22,17 +22,19 @@
             <RowDefinition Height="116*"></RowDefinition>
             <RowDefinition Height="303*"></RowDefinition>
         </Grid.RowDefinitions>
+        <TextBox Name="Address" Grid.Row="2" Text="Hata vitalika" FontSize="20" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,100,0,0" Height="40" Width="200"></TextBox>
         <materialDesign:ColorZone Mode="Accent" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Padding="16" Foreground="White" FontSize="55" FontWeight="Bold" Height="115">
             <StackPanel >
                 <TextBlock FontFamily="/PizzaMargarittaUI;component/#Black Jack" >Pizza Margaritta Basket</TextBlock>
             </StackPanel>
         </materialDesign:ColorZone>
-        <ListView Grid.Column="0"   Grid.Row="1" Name="ListViewForPizza" Background="{x:Null}">
+        <ListView Grid.Column="0" MouseDoubleClick="ListViewForPizza_MouseDoubleClick" Grid.Row="1" Name="ListViewForPizza" Background="{x:Null}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Width="{Binding ActualWidth, ElementName=ListViewForPizza}" Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
+           
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel  Orientation="Vertical">
@@ -51,6 +53,23 @@
                 </ToolTip>
             </materialDesign:PackIcon.ToolTip>
         </materialDesign:PackIcon>
-        <Button Grid.Column="2" Grid.Row="2" Height="40" Width="170" Click="Button_Click">Delete From Basket</Button>
+        
+        <Button Grid.Column="2" Grid.Row="2" Height="40" VerticalAlignment="Top" Margin="0,20,0,0" Width="170" Click="Button_Click">Delete From Basket</Button>
+        <Button Grid.Column="2" Grid.Row="2" Height="40" VerticalAlignment="Top" Margin="0,80,0,0" Width="170" Click="Button_Click_1">Clear Basket</Button>
+        <Button Grid.Column="2" Grid.Row="2" Height="40" VerticalAlignment="Top" Margin="0,140,0,0" Width="170" Click="Button_Click_2">Place an order</Button>
+        <TextBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Name="PriceTB"
+    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+    Margin="500,200,0,0"
+    IsEnabled="False"
+    VerticalAlignment="Top"
+    Height="80"
+    AcceptsReturn="True"
+    TextWrapping="Wrap"
+    VerticalScrollBarVisibility="Auto"
+    FontSize="23"
+                 Width="300"
+    HorizontalAlignment="Center"
+     />
+       
     </Grid>
 </Page>

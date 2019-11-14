@@ -128,5 +128,22 @@ namespace PizzaMargaritta.Controllers
             return Content("BAN");
         }
 
+        [HttpDelete("clear/{user_id}")]
+        public ContentResult DeleteALL(int user_id)
+        {
+            List<BasketPizza> lbp = _context.pizzas_in_basket.ToList();
+            foreach (var p in lbp)
+            {
+                if (p.User_id == user_id)
+                {
+                    _context.pizzas_in_basket.Remove(p);
+
+                }
+            }
+ 
+                _context.SaveChanges();
+                return Content("Finished");
+        }
+
     }
 }
