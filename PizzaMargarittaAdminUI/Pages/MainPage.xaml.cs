@@ -108,10 +108,7 @@ namespace PizzaMargarittaAdminUI.Pages
            
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
 
         private void DeletePizza_Click(object sender, RoutedEventArgs e)
         {
@@ -141,7 +138,7 @@ namespace PizzaMargarittaAdminUI.Pages
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new SearchUserPage(admin));
         }
 
         private void SearchPizza_Click(object sender, RoutedEventArgs e)

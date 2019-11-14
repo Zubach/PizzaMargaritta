@@ -53,6 +53,7 @@ namespace PizzaMargaritta.Controllers
 
         private List<PizzaModel> FinishFilter(Filter filter,List<PizzaModel> list)
         {
+            List<PizzaModel> result = list.GetRange(0, list.Count);
             foreach (var item in list)
             {
                 var properties = item.GetType().GetProperties();
@@ -156,7 +157,7 @@ namespace PizzaMargaritta.Controllers
                             {
                                 if (prop.GetValue(item) is string)
                                 {
-                                    if (filter.Values[0] == prop.GetValue(item))
+                                    if (((string)prop.GetValue(item)).Contains(filter.Values[0]))
                                         IsTrue = true;
                                 }
                                 else
@@ -169,7 +170,7 @@ namespace PizzaMargaritta.Controllers
                         }
                         if (!IsTrue)
                         {
-                            list.Remove(new PizzaModel() {
+                            result.Remove(new PizzaModel() {
                                 Name = item.Name,
                                 Description = item.Description,
                                 Image = item.Image,
@@ -181,7 +182,7 @@ namespace PizzaMargaritta.Controllers
                     }
                 }
             }
-            return list;
+            return result;
         }
 
         [HttpPut("filtered/get")]
@@ -378,7 +379,7 @@ namespace PizzaMargaritta.Controllers
                             {
                                 if(prop.GetValue(item) is string)
                                 {
-                                    if (firstFilter.Values[0] == (string)prop.GetValue(item))
+                                    if (((string)prop.GetValue(item)).Contains(firstFilter.Values[0]))
                                         filteredList.Add(new PizzaModel()
                                         {
                                             Name = item.Name,

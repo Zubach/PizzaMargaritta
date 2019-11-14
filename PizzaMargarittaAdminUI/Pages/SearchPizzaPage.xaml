@@ -50,6 +50,16 @@
     />
 
             <DockPanel Margin="0,50,0,0">
+                <Button Margin="20,0,0,0"
+                        Click="GoBackBtn_Click"
+                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                        HorizontalAlignment="Left"
+  >
+                    <materialDesign:PackIcon
+                        Kind="StepBackward"
+                        Height="24"
+                        Width="24" />
+                </Button>
                 <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
              Width="100"
@@ -57,6 +67,7 @@
     >
                     SEARCH
                 </Button>
+                
             </DockPanel>
 
         </StackPanel>

@@ -49,22 +49,34 @@ namespace PizzaMargarittaAdminUI.Pages
                 filter.Filters.Add(new Filter() {PropertyName="Name",Conditions=conditions,Values= values});
             
             }
-            if(FromTextBox.Text != "")
+            if(FromTextBox.Text != "" || ToTextBox.Text != "")
             {
-                List<string> conditions = new List<string>() { ">=" };
-                List<string> values = new List<string>() { FromTextBox.Text };
+                List<string> conditions = new List<string>();
+                List<string> values = new List<string>();
+                if (FromTextBox.Text != "")
+                {
+                    conditions.Add(">=");
+                    values.Add(FromTextBox.Text);
+                }
+                if(ToTextBox.Text != "")
+                {
+                    conditions.Add("<=");
+                    values.Add(ToTextBox.Text);
+                }
+
+                
                 filter.Filters.Add(new Filter() { PropertyName = "Price", Conditions = conditions, Values = values });
             }
-            if(ToTextBox.Text != "")
-            {
-                List<string> conditions = new List<string>() { "<=" };
-                List<string> values = new List<string>() { ToTextBox.Text };
-                filter.Filters.Add(new Filter() { PropertyName = "Price", Conditions = conditions, Values = values });
-            }
+           
+              
+              
+             
+            
 
             HttpWebRequest webRequest = WebRequest.CreateHttp($"https://localhost:44361/api/pizzas/filtered/get");
             webRequest.Method = "PUT";
-         
+            webRequest.ContentType = "application/json";
+                    
             using (Stream stream = webRequest.GetRequestStream())
             {
                 using(StreamWriter writer = new StreamWriter(stream))
@@ -104,7 +116,7 @@ namespace PizzaMargarittaAdminUI.Pages
                     }
                 }
                 // listViewPizza.SelectedItem = null;
-                listViewPizza.Items.Remove(selected);
+                pizzas.Remove(selected);
 
                 listViewPizza.SelectedItem = null;
                 listViewPizza.Items.Refresh();
@@ -118,6 +130,11 @@ namespace PizzaMargarittaAdminUI.Pages
                 var model = (sender as ListView).SelectedItem as UserModel;
                 this.NavigationService.Navigate(new EditUserPage(model, admin));
             }
+        }
+
+        private void GoBackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
         }
     }
 }

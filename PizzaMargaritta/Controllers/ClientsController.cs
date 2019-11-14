@@ -47,6 +47,375 @@ namespace PizzaMargaritta.Controllers
             return Content("BAN");
         }
 
+        private List<UserForAdminModel> FinishFilter(Filter filter, List<UserForAdminModel> list)
+        {
+            List<UserForAdminModel> result = list.GetRange(0, list.Count);
+            foreach (var item in list)
+            {
+                var properties = item.GetType().GetProperties();
+                foreach (var prop in properties)
+                {
+                    if (prop.Name == filter.PropertyName)
+                    {
+                        bool IsTrue = false;
+                        if (filter.Conditions[0] == ">" || filter.Conditions[0] == ">=" || filter.Conditions[0] == "<" || filter.Conditions[0] == "<=")
+                        {
+                            if (filter.Conditions.Count > 1)
+                            {
+
+                                switch (filter.Conditions[0])
+                                {
+                                    case ">":
+                                        switch (filter.Conditions[1])
+                                        {
+                                            case "<":
+                                                if ((decimal)prop.GetValue(item) > decimal.Parse(filter.Values[0]) && (decimal)prop.GetValue(item) < decimal.Parse(filter.Values[1]))
+                                                    IsTrue = true;
+                                                break;
+                                            case "<=":
+                                                if ((decimal)prop.GetValue(item) > decimal.Parse(filter.Values[0]) && (decimal)prop.GetValue(item) <= decimal.Parse(filter.Values[1]))
+                                                    IsTrue = true;
+                                                break;
+                                        }
+
+                                        break;
+                                    case ">=":
+                                        switch (filter.Conditions[1])
+                                        {
+                                            case "<":
+                                                if ((decimal)prop.GetValue(item) >= decimal.Parse(filter.Values[0]) && (decimal)prop.GetValue(item) < decimal.Parse(filter.Values[1]))
+                                                    IsTrue = true;
+                                                break;
+                                            case "<=":
+                                                if ((decimal)prop.GetValue(item) >= decimal.Parse(filter.Values[0]) && (decimal)prop.GetValue(item) <= decimal.Parse(filter.Values[1]))
+                                                    IsTrue = true;
+                                                break;
+                                        }
+                                        break;
+                                    case "<":
+                                        switch (filter.Conditions[1])
+                                        {
+                                            case ">":
+                                                if ((decimal)prop.GetValue(item) < decimal.Parse(filter.Values[0]) && (decimal)prop.GetValue(item) > decimal.Parse(filter.Values[1]))
+                                                    IsTrue = true;
+                                                break;
+                                            case ">=":
+                                                if ((decimal)prop.GetValue(item) < decimal.Parse(filter.Values[0]) && (decimal)prop.GetValue(item) >= decimal.Parse(filter.Values[1]))
+                                                    IsTrue = true;
+                                                break;
+                                        }
+                                        break;
+                                    case "<=":
+                                        switch (filter.Conditions[1])
+                                        {
+                                            case ">":
+                                                if ((decimal)prop.GetValue(item) <= decimal.Parse(filter.Values[0]) && (decimal)prop.GetValue(item) > decimal.Parse(filter.Values[1]))
+                                                    IsTrue = true;
+                                                break;
+                                            case ">=":
+                                                if ((decimal)prop.GetValue(item) <= decimal.Parse(filter.Values[0]) && (decimal)prop.GetValue(item) >= decimal.Parse(filter.Values[1]))
+                                                    IsTrue = true;
+                                                break;
+                                        }
+                                        break;
+
+                                }
+
+                            }
+                            else
+                            {
+                                switch (filter.Conditions[0])
+                                {
+                                    case ">":
+                                        if ((decimal)prop.GetValue(item) > decimal.Parse(filter.Values[0]))
+                                            IsTrue = true;
+                                        break;
+                                    case ">=":
+                                        if ((decimal)prop.GetValue(item) >= decimal.Parse(filter.Values[0]))
+                                            IsTrue = true;
+                                        break;
+                                    case "<":
+                                        if ((decimal)prop.GetValue(item) < decimal.Parse(filter.Values[0]))
+                                            IsTrue = true;
+                                        break;
+                                    case "<=":
+                                        if ((decimal)prop.GetValue(item) <= decimal.Parse(filter.Values[0]))
+                                            IsTrue = true;
+                                        break;
+
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (filter.Conditions[0] == "==")
+                            {
+                                if (prop.GetValue(item) is string)
+                                {
+                                    if (((string)prop.GetValue(item)).Contains(filter.Values[0]))
+                                        IsTrue = true;
+                                }
+                                else
+                                {
+                                    if (decimal.Parse(filter.Values[0]) == (decimal)prop.GetValue(item))
+                                        IsTrue = true;
+
+                                }
+                            }
+                        }
+                        if (!IsTrue)
+                        {
+                            result.Remove(new UserForAdminModel()
+                            {
+                                FirstName = item.FirstName,
+                                LastName = item.LastName,
+                                IsBanned = item.IsBanned,
+                                Login = item.Login,
+                                Number = item.Number
+                            });
+
+                        }
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+
+        [HttpPut("filtered/get/{login}:{password}")]
+        public ContentResult FilteredGet(string login,string password)
+        {
+            var admin = _context.Admins.FirstOrDefault(x => x.Login == login && x.Password == password);
+            if(admin != null)
+            {
+                var pizzas = _context.Pizzas.ToList();
+                List<PizzaModel> filteredList = new List<PizzaModel>();
+                var firstFilter = filter.Filters.First();
+                foreach (var item in pizzas)
+                {
+                    var properties = item.GetType().GetProperties();
+                    foreach (var prop in properties)
+                    {
+                        if (prop.Name == firstFilter.PropertyName)
+                        {
+                            if (firstFilter.Conditions[0] == ">" || firstFilter.Conditions[0] == ">=" || firstFilter.Conditions[0] == "<" || firstFilter.Conditions[0] == "<=")
+                            {
+                                if (firstFilter.Conditions.Count > 1)
+                                {
+
+                                    switch (firstFilter.Conditions[0])
+                                    {
+                                        case ">":
+                                            switch (firstFilter.Conditions[1])
+                                            {
+                                                case "<":
+                                                    if ((decimal)prop.GetValue(item) > decimal.Parse(firstFilter.Values[0]) && (decimal)prop.GetValue(item) < decimal.Parse(firstFilter.Values[1]))
+                                                        filteredList.Add(new PizzaModel()
+                                                        {
+                                                            Name = item.Name,
+                                                            Description = item.Description,
+                                                            Image = item.Image,
+                                                            Price = item.Price
+
+                                                        });
+                                                    break;
+                                                case "<=":
+                                                    if ((decimal)prop.GetValue(item) > decimal.Parse(firstFilter.Values[0]) && (decimal)prop.GetValue(item) <= decimal.Parse(firstFilter.Values[1]))
+                                                        filteredList.Add(new PizzaModel()
+                                                        {
+                                                            Name = item.Name,
+                                                            Description = item.Description,
+                                                            Image = item.Image,
+                                                            Price = item.Price
+
+                                                        });
+                                                    break;
+                                            }
+
+                                            break;
+                                        case ">=":
+                                            switch (firstFilter.Conditions[1])
+                                            {
+                                                case "<":
+                                                    if ((decimal)prop.GetValue(item) >= decimal.Parse(firstFilter.Values[0]) && (decimal)prop.GetValue(item) < decimal.Parse(firstFilter.Values[1]))
+                                                        filteredList.Add(new PizzaModel()
+                                                        {
+                                                            Name = item.Name,
+                                                            Description = item.Description,
+                                                            Image = item.Image,
+                                                            Price = item.Price
+
+                                                        });
+                                                    break;
+                                                case "<=":
+                                                    if ((decimal)prop.GetValue(item) >= decimal.Parse(firstFilter.Values[0]) && (decimal)prop.GetValue(item) <= decimal.Parse(firstFilter.Values[1]))
+                                                        filteredList.Add(new PizzaModel()
+                                                        {
+                                                            Name = item.Name,
+                                                            Description = item.Description,
+                                                            Image = item.Image,
+                                                            Price = item.Price
+
+                                                        });
+                                                    break;
+                                            }
+                                            break;
+                                        case "<":
+                                            switch (firstFilter.Conditions[1])
+                                            {
+                                                case ">":
+                                                    if ((decimal)prop.GetValue(item) < decimal.Parse(firstFilter.Values[0]) && (decimal)prop.GetValue(item) > decimal.Parse(firstFilter.Values[1]))
+                                                        filteredList.Add(new PizzaModel()
+                                                        {
+                                                            Name = item.Name,
+                                                            Description = item.Description,
+                                                            Image = item.Image,
+                                                            Price = item.Price
+
+                                                        });
+                                                    break;
+                                                case ">=":
+                                                    if ((decimal)prop.GetValue(item) < decimal.Parse(firstFilter.Values[0]) && (decimal)prop.GetValue(item) >= decimal.Parse(firstFilter.Values[1]))
+                                                        filteredList.Add(new PizzaModel()
+                                                        {
+                                                            Name = item.Name,
+                                                            Description = item.Description,
+                                                            Image = item.Image,
+                                                            Price = item.Price
+
+                                                        });
+                                                    break;
+                                            }
+                                            break;
+                                        case "<=":
+                                            switch (firstFilter.Conditions[1])
+                                            {
+                                                case ">":
+                                                    if ((decimal)prop.GetValue(item) <= decimal.Parse(firstFilter.Values[0]) && (decimal)prop.GetValue(item) > decimal.Parse(firstFilter.Values[1]))
+                                                        filteredList.Add(new PizzaModel()
+                                                        {
+                                                            Name = item.Name,
+                                                            Description = item.Description,
+                                                            Image = item.Image,
+                                                            Price = item.Price
+
+                                                        });
+                                                    break;
+                                                case ">=":
+                                                    if ((decimal)prop.GetValue(item) <= decimal.Parse(firstFilter.Values[0]) && (decimal)prop.GetValue(item) >= decimal.Parse(firstFilter.Values[1]))
+                                                        filteredList.Add(new PizzaModel()
+                                                        {
+                                                            Name = item.Name,
+                                                            Description = item.Description,
+                                                            Image = item.Image,
+                                                            Price = item.Price
+
+                                                        });
+                                                    break;
+                                            }
+                                            break;
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    switch (firstFilter.Conditions[0])
+                                    {
+                                        case ">":
+                                            if ((decimal)prop.GetValue(item) > decimal.Parse(firstFilter.Values[0]))
+                                                filteredList.Add(new PizzaModel()
+                                                {
+                                                    Name = item.Name,
+                                                    Description = item.Description,
+                                                    Image = item.Image,
+                                                    Price = item.Price
+
+                                                });
+                                            break;
+                                        case ">=":
+                                            if ((decimal)prop.GetValue(item) >= decimal.Parse(firstFilter.Values[0]))
+                                                filteredList.Add(new PizzaModel()
+                                                {
+                                                    Name = item.Name,
+                                                    Description = item.Description,
+                                                    Image = item.Image,
+                                                    Price = item.Price
+
+                                                });
+                                            break;
+                                        case "<":
+                                            if ((decimal)prop.GetValue(item) < decimal.Parse(firstFilter.Values[0]))
+                                                filteredList.Add(new PizzaModel()
+                                                {
+                                                    Name = item.Name,
+                                                    Description = item.Description,
+                                                    Image = item.Image,
+                                                    Price = item.Price
+
+                                                });
+                                            break;
+                                        case "<=":
+                                            if ((decimal)prop.GetValue(item) <= decimal.Parse(firstFilter.Values[0]))
+                                                filteredList.Add(new PizzaModel()
+                                                {
+                                                    Name = item.Name,
+                                                    Description = item.Description,
+                                                    Image = item.Image,
+                                                    Price = item.Price
+
+                                                });
+                                            break;
+
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                if (firstFilter.Conditions[0] == "==")
+                                {
+                                    if (prop.GetValue(item) is string)
+                                    {
+                                        if (((string)prop.GetValue(item)).Contains(firstFilter.Values[0]))
+                                            filteredList.Add(new PizzaModel()
+                                            {
+                                                Name = item.Name,
+                                                Description = item.Description,
+                                                Image = item.Image,
+                                                Price = item.Price
+                                            });
+                                    }
+                                    else
+                                    {
+                                        if (decimal.Parse(firstFilter.Values[0]) == (decimal)prop.GetValue(item))
+                                            filteredList.Add(new PizzaModel()
+                                            {
+                                                Name = item.Name,
+                                                Description = item.Description,
+                                                Image = item.Image,
+                                                Price = item.Price
+                                            });
+
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                if (filter.Filters.Count > 1)
+                {
+                    for (int i = 1; i < filter.Filters.Count; i++)
+                    {
+                        filteredList = FinishFilter(filter.Filters[i], filteredList);
+                    }
+                }
+            }
+            return Content("BAN");
+        }
+
         [HttpPut("{userlogin}/ban/{login}:{password}")]
         public ContentResult Ban( string userlogin, string login, string password)
         {
